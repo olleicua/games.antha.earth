@@ -5,6 +5,7 @@
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
 const app = express();
+var expressWs = require('express-ws')(app);
 
 // our default array of dreams
 const dreams = [
@@ -41,10 +42,10 @@ const listener = app.listen(process.env.PORT, () => {
 
 // CHAT
 
-const WebSocket = require('ws');
+//const WebSocket = require('ws');
 
 // starts server instance on http://localhost:8080
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = expressWs.getWss();
 
 // waits for connection to be established from the client
 // the callback argument ws is a unique for each client
