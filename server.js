@@ -28,7 +28,36 @@ app.get("/dreams", (request, response) => {
   response.json(dreams);
 });
 
+app.get("/chat", (request, response) => {
+  // express helps us take JS objects and send them as JSON
+  response.sendFile(__dirname + "/views/chat.html");
+});
+
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
+});
+
+
+// CHAT
+
+const WebSocket = require('ws');
+
+// starts server instance on http://localhost:8080
+const wss = new WebSocket.Server({ port: 8080 });
+
+// waits for connection to be established from the client
+// the callback argument ws is a unique for each client
+wss.on('connection', (ws) => {
+
+  // runs a callback on message event
+  ws.on('message', (data) => {
+
+    // sends the data to all connected clients
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(data);
+        }
+    });
+  });
 });
