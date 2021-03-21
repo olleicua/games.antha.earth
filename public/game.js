@@ -20,7 +20,8 @@ let gameOver = false;
 
 function setup() {
   minAspect = Math.min(windowWidth - 200, windowHeight);
-  createCanvas(minAspect, minAspect, WEBGL);
+  let canvas = createCanvas(minAspect, minAspect, WEBGL);
+  canvas.parent('game');
   pixelDensity(1);
   ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
   
