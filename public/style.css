@@ -1,0 +1,34 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: rgb(210, 210, 210);
+}
+
+.page {
+  height: 100%;
+  position: relative;
+}
+
+.ui {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#game {
+  display: inline-block;
+}
+
+.controls {
+  display: inline-block;
+  height: 100%;
+  width: 150px;
+  background-color: rbg(150, 150, 150);
+}
+
+.controls button {
+  width: 100%;
+}

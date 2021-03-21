@@ -19,7 +19,7 @@ const gamestate = [];
 let gameOver = false;
 
 function setup() {
-  minAspect = Math.min(windowWidth - 200, windowHeight);
+  minAspect = Math.min(windowWidth - 200, windowHeight - 5);
   let canvas = createCanvas(minAspect, minAspect, WEBGL);
   canvas.parent('game');
   pixelDensity(1);
@@ -30,8 +30,8 @@ function setup() {
   selectionGL = selectionCanvas.elt.getContext('webgl');
   selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
 
-	selectionCanvas.show();
-	selectionCanvas.style("display", "inline");
+	// selectionCanvas.show();
+	// selectionCanvas.style("display", "inline");
 
   boardSide = (Math.min(width, height) / 2);
   verticalSpacing = boardSide / 2;
@@ -48,6 +48,8 @@ function setup() {
       }
     }
   }
+  
+  
 }
 
 function placeCamera() {
