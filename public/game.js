@@ -25,13 +25,13 @@ function setup() {
   pixelDensity(1);
   ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
   
-  selectionCanvas = createGraphics(windowWidth - 5, windowHeight - 5, WEBGL);
+  selectionCanvas = createGraphics(minAspect, minAspect, WEBGL);
   selectionCanvas.pixelDensity(1);
   selectionGL = selectionCanvas.elt.getContext('webgl');
   selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
 
-	// selectionCanvas.show();
-	// selectionCanvas.style("display", "inline");
+	selectionCanvas.show();
+	selectionCanvas.style("display", "inline");
 
   boardSide = (Math.min(width, height) / 2);
   verticalSpacing = boardSide / 2;
