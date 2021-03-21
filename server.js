@@ -8,36 +8,36 @@ const app = express();
 var expressWs = require('express-ws')(app);
 
 // our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
+// const dreams = [
+//   "Find and count some sheep",
+//   "Climb a really tall mountain",
+//   "Wash the dishes"
+// ];
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
+// // make all the files in 'public' available
+// // https://expressjs.com/en/starter/static-files.html
+// app.use(express.static("public"));
 
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
-});
+// // https://expressjs.com/en/starter/basic-routing.html
+// app.get("/", (request, response) => {
+//   response.sendFile(__dirname + "/views/index.html");
+// });
 
-// send the default array of dreams to the webpage
-app.get("/dreams", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(dreams);
-});
+// // send the default array of dreams to the webpage
+// app.get("/dreams", (request, response) => {
+//   // express helps us take JS objects and send them as JSON
+//   response.json(dreams);
+// });
 
-app.get("/chat", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.sendFile(__dirname + "/views/chat.html");
-});
+// app.get("/chat", (request, response) => {
+//   // express helps us take JS objects and send them as JSON
+//   response.sendFile(__dirname + "/views/chat.html");
+// });
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+// // listen for requests :)
+// const listener = app.listen(process.env.PORT, () => {
+//   console.log("Your app is listening on port " + listener.address().port);
+// });
 
 
 // CHAT
@@ -49,7 +49,8 @@ const wss = expressWs.getWss();
 
 // waits for connection to be established from the client
 // the callback argument ws is a unique for each client
-wss.on('connection', (ws) => {
+app.ws('/', (ws, request) => {
+//wss.on('connection', (ws) => {
 
   // runs a callback on message event
   ws.on('message', (data) => {
@@ -62,3 +63,5 @@ wss.on('connection', (ws) => {
     });
   });
 });
+
+app.listen(3000);
