@@ -192,5 +192,5 @@ function mousePressed() {
   }
 }
 
-// TODO: recieve push notifications from a server
+// TODO: recieve web-socket messages from a server
 //       that keeps track of state

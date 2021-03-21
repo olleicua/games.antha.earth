@@ -32,7 +32,7 @@ app.use(express.static("public"));
 
 app.get("/", (request, response) => {
   // express helps us take JS objects and send them as JSON
-  response.sendFile(__dirname + "/views/chat.html");
+  response.sendFile(__dirname + "/views/index.html");
 });
 
 
