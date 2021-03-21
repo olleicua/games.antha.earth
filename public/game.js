@@ -20,7 +20,7 @@ let gameOver = false;
 
 function setup() {
   minAspect = Math.min(windowWidth, windowHeight) - 5;
-  createCanvas(windowWidth - 5, windowHeight - 5, WEBGL);
+  createCanvas(minAspect - 5, minAspect - 5, WEBGL);
   pixelDensity(1);
   ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
   
@@ -32,7 +32,7 @@ function setup() {
 	// selectionCanvas.show();
 	// selectionCanvas.style("display", "inline");
 
-  boardSide = (Math.min(width, height) / 2) - 100;
+  boardSide = (Math.min(width, height) / 2);
   verticalSpacing = boardSide / 2;
   pieceHeight = verticalSpacing / 9;
   cameraHeight = boardSide / 2;
@@ -140,8 +140,6 @@ function drawUI() {
 
 function draw() {
   selectionCanvas.reset();
-  
-  tra
   
   ambientLight(127, 127, 63);
   placeCamera();
