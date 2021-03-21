@@ -49,7 +49,9 @@ function setup() {
     }
   }
   
-  
+  // const clockwiseButton = document.querySelector('.clockwise-button');
+  // const counterClockwiseButton = document.querySelector('.counter-clockwise-button');
+  // clockwiseButton.addEventListener('mousedown');
 }
 
 function placeCamera() {

@@ -31,4 +31,5 @@ body {
 
 .controls button {
   width: 100%;
+  visibility: hidden;
 }
