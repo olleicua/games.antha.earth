@@ -9,7 +9,7 @@
 
 const TAU = 2 * Math.PI;
 let cameraAngle = TAU / 12;
-let canvasSide, boardSide, verticalSpacing,
+let minAspect, boardSide, verticalSpacing,
     cameraHeight, cameraFromZAxis,
     pieceHeight;
 
@@ -19,21 +19,20 @@ const gamestate = [];
 let gameOver = false;
 
 function setup() {
-  canvasSide = Math.min(windowWidth, windowHeight);
-  console.log(canvasSide - 100);
-  createCanvas(canvasSide - 100, canvasSide - 100, WEBGL);
+  minAspect = Math.min(windowWidth, windowHeight) - 5;
+  createCanvas(windowWidth - 5, windowHeight - 5, WEBGL);
   pixelDensity(1);
-  ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * width, 2 * width);
+  ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
   
-  selectionCanvas = createGraphics(canvasSide - 100, canvasSide - 100, WEBGL);
+  selectionCanvas = createGraphics(windowWidth - 5, windowHeight - 5, WEBGL);
   selectionCanvas.pixelDensity(1);
   selectionGL = selectionCanvas.elt.getContext('webgl');
-  selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * width, 2 * width);
+  selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
 
 	// selectionCanvas.show();
 	// selectionCanvas.style("display", "inline");
 
-  boardSide = width / 2;
+  boardSide = height / 2;
   verticalSpacing = boardSide / 2;
   pieceHeight = verticalSpacing / 9;
   cameraHeight = boardSide / 2;
@@ -53,9 +52,9 @@ function setup() {
 function placeCamera() {
   if (keyIsPressed) {
     if (keyCode === LEFT_ARROW) {
-      cameraAngle -= 0.01;
+      cameraAngle -= 0.03;
     } else if (keyCode === RIGHT_ARROW) {
-      cameraAngle += 0.01;
+      cameraAngle += 0.03;
     }
   }
   
