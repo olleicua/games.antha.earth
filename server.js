@@ -5,6 +5,7 @@
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
 const app = express();
+const WebSocket = require('ws');
 var expressWs = require('express-ws')(app);
 
 // our default array of dreams
