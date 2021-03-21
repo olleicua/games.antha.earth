@@ -32,7 +32,7 @@ function setup() {
 	// selectionCanvas.show();
 	// selectionCanvas.style("display", "inline");
 
-  boardSide = height / 2;
+  boardSide = (Math.min(width, height) / 2) - 100;
   verticalSpacing = boardSide / 2;
   pieceHeight = verticalSpacing / 9;
   cameraHeight = boardSide / 2;
@@ -140,6 +140,8 @@ function drawUI() {
 
 function draw() {
   selectionCanvas.reset();
+  
+  tra
   
   ambientLight(127, 127, 63);
   placeCamera();
