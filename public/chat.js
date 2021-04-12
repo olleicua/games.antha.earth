@@ -16,8 +16,8 @@ connection.onerror = (event) => {
 connection.onmessage = (event) => {
   // append received message from the server to the DOM element 
   const chat = document.querySelector("#chat");
-  chat.innerHTML += event.data[0];
-  console.log(event.data);
+  chat.innerHTML += event.data.data;
+  console.log(event);
 };
 
 button.addEventListener("click", () => {
