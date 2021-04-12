@@ -11,12 +11,12 @@ require('./staticRoutes.js').connect(app)
 
 // CHAT
 
-// starts server instance on http://localhost:8080
+// starts websocket server instance on http://localhost:8080
 const wss = expressWs.getWss();
 
 // waits for connection to be established from the client
 // the callback argument ws is a unique for each client
-app.ws('/', (ws, request) => {
+app.ws('/', (client, request) => {
 //wss.on('connection', (ws) => {
 
   // runs a callback on message event
