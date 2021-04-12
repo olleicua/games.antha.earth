@@ -10,22 +10,19 @@ app.use(express.static("public"));
 require('./staticRoutes.js').connect(app)
 
 // CHAT
+const messages = [];
+const clients = [];
 
 // starts websocket server instance on http://localhost:8080
 const wss = expressWs.getWss();
 
-// waits for connection to be established from the client
-// the callback argument ws is a unique for each client
 app.ws('/', (client, request) => {
-//wss.on('connection', (ws) => {
+  client.id = clients.length;
+  clients.push(client);
 
-  // runs a callback on message event
-  ws.on('message', (data) => {
+  client.on('message', (data) => {
 
-    // sends the data to all connected clients
-    let clients = [];
-    wss.clients.forEach((client) => { clients.push(client); });
-    wss.clients.forEach((client) => {
+    clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify({
             message: data,
