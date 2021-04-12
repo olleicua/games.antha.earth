@@ -13,11 +13,11 @@ connection.onerror = (event) => {
     console.error("WebSocket error observed:", event);
 };
 
+const chat = document.querySelector("#chat");
 connection.onmessage = (event) => {
-  // append received message from the server to the DOM element 
-  const chat = document.querySelector("#chat");
-  chat.innerHTML += event.data.data;
-  console.log(event);
+  const data = JSON.parse(event.data);
+  chat.innerHTML += data.message;
+  console.log(data);
 };
 
 button.addEventListener("click", () => {

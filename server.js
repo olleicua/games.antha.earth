@@ -36,11 +36,15 @@ app.ws('/', (ws, request) => {
   ws.on('message', (data) => {
 
     // sends the data to all connected clients
+    let clients = [];
+    wss.clients.forEach((client) => { x.push(client); });
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify({
-            data: data,
-            clientCount: wss.clients.length
+            message: data,
+            clients: clients,
+            clientCount: 7,
+            x: x,
           }));
         }
     });
