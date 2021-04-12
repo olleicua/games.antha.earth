@@ -15,15 +15,16 @@ connection.onerror = (event) => {
 
 const chat = document.querySelector("#chat");
 connection.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  chat.innerHTML += data.message;
-  console.log(data);
+  const messages = JSON.parse(event.data);
+  for (let i = 0; i < messages.length; i++) {
+    chat.innerHTML += messages[i];
+  }
 };
 
 button.addEventListener("click", () => {
   const name = document.querySelector("#name");
   const message = document.querySelector("#message");
-  const data = `<p>${name.value}: ${message.value}</p>`;
+  const data = [name.value, message.value];
 
   // Send composed message to the server
   connection.send(data);

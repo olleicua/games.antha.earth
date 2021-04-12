@@ -17,18 +17,19 @@ const clients = [];
 const wss = expressWs.getWss();
 
 app.ws('/', (client, request) => {
-  client.id = clients.length;
+  client.id = clients.length
   clients.push(client);
+  
+  client.send(JSON.stringify(messages));
 
   client.on('message', (data) => {
+    const message = [client.id, data];
+    messages.push(message);
 
-    clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({
-            message: data,
-            clients: clients,
-          }));
-        }
+    clients.forEach((target) => {
+      if (target.readyState === WebSocket.OPEN) {
+        target.send(JSON.stringify([message]));
+      }
     });
   });
 });
