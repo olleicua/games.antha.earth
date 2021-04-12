@@ -35,6 +35,10 @@ const routes = [
   ['/chat', '/views/index.html'],
 ];
 
+for (var i = 0; i < routes.length; i++) {
+  routes[i]
+}
+
 app.get("/", (request, response) => {
   // express helps us take JS objects and send them as JSON
   response.sendFile(__dirname + "");
