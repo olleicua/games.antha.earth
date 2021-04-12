@@ -16,7 +16,7 @@ const clients = [];
 // starts websocket server instance on http://localhost:8080
 const wss = expressWs.getWss();
 
-app.ws('/', (client, request) => {
+app.ws('/chat', (client, request) => {
   //client.id = clients.length
   clients.push(client);
   
