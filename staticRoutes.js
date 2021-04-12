@@ -4,12 +4,13 @@ const routes = [
 ];
 
 module.exports = {
-  registerListeners: (app) => {
-    for (var i = 0; i < routes.length; i++) {
-      var requestedPath, staticFilePath;
+  connect: (app) => {
+    let i, requestedPath, staticFilePath;
+    for (i = 0; i < routes.length; i++) {
       [requestedPath, staticFilePath] = routes[i];
       app.get(requestedPath, (request, response) => {
-        response.sendFile(__dirname + staticFilePath);
+        response.html()
+        //response.sendFile(__dirname + staticFilePath);
       });
     }
   }
