@@ -7,22 +7,9 @@ var expressWs = require('express-ws')(app);
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
-// https://expressjs.com/en/starter/basic-routing.html
-// app.get("/", (request, response) => {
-//   response.sendFile(__dirname + "/views/index.html");
-// });
-
-// // send the default array of dreams to the webpage
-// app.get("/dreams", (request, response) => {
-//   // express helps us take JS objects and send them as JSON
-//   response.json(dreams);
-// });
-
 require('./staticRoutes.js').connect(app)
 
 // CHAT
-
-//const WebSocket = require('ws');
 
 // starts server instance on http://localhost:8080
 const wss = expressWs.getWss();
@@ -37,14 +24,12 @@ app.ws('/', (ws, request) => {
 
     // sends the data to all connected clients
     let clients = [];
-    wss.clients.forEach((client) => { x.push(client); });
+    wss.clients.forEach((client) => { clients.push(client); });
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify({
             message: data,
             clients: clients,
-            clientCount: 7,
-            x: x,
           }));
         }
     });
