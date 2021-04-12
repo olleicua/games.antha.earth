@@ -1,10 +1,11 @@
 const routes = [
   ['/', '/views/index.html'],
-  ['/chat', '/views/index.html'],
+  ['/chat', '/views/chat.html'],
 ];
 
 const connectStaticRoute = (app, requestedPath, staticFilePath) => {
   app.get(requestedPath, (request, response) => {
+    //response.send(`${requestedPath}, ${staticFilePath}`);
     response.sendFile(__dirname + staticFilePath);
   });
 };
