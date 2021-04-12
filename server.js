@@ -5,7 +5,7 @@ var expressWs = require('express-ws')(app);
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
+//app.use(express.static("public"));
 
 // https://expressjs.com/en/starter/basic-routing.html
 // app.get("/", (request, response) => {
@@ -38,7 +38,7 @@ app.ws('/', (ws, request) => {
     // sends the data to all connected clients
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(data);
+          client.send([data, wss.clients.length]);
         }
     });
   });
