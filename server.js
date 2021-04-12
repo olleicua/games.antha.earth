@@ -17,13 +17,14 @@ const clients = [];
 const wss = expressWs.getWss();
 
 app.ws('/', (client, request) => {
-  client.id = clients.length
+  //client.id = clients.length
   clients.push(client);
   
   client.send(JSON.stringify(messages));
 
   client.on('message', (data) => {
-    const message = [client.id, data];
+    console.log(data);
+    const message = JSON.parse(data);
     messages.push(message);
 
     clients.forEach((target) => {
