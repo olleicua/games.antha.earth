@@ -36,15 +36,12 @@ const routes = [
 ];
 
 for (var i = 0; i < routes.length; i++) {
-  routes[i]
+  var requestedPath, staticFilePath;
+  [requestedPath, staticFilePath] = routes[i];
+  app.get(requestedPath, (request, response) => {
+    response.sendFile(__dirname + staticFilePath);
+  });
 }
-
-app.get("/", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.sendFile(__dirname + "");
-});
-
-
 
 // CHAT
 
