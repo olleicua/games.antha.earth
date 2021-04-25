@@ -162,11 +162,31 @@ function drawGame() {
 
 function drawUI() {
   // TODO:
-  //       - rotate buttons for touchscreen users
   //       - claim buttons allow players to claim / release a color
   //       - display claim status
   //       - allow game to be forfeited
   //       - when game is over allow game to be reset
+}
+
+const v = createVector;
+
+function checkLine(start, delta) {
+  const first = gamestate[start.x][start.y][start.z];
+  if (first === null) return false;
+  for (let i = 1; i < 4; i++) {
+    
+  }
+}
+
+function checkVictory() {
+  lines = [
+    [v(1, 0, 0), [
+      v(0, 0, 0),
+      v(0, 0, 0),
+      v(0, 0, 0),
+      v(0, 0, 0),
+    ]]
+  ]
 }
 
 function draw() {
