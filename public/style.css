@@ -31,5 +31,11 @@ body {
 
 .controls button {
   width: 100%;
-  visibility: hidden;
+  height: 
+/*   visibility: hidden; */
+}
+
+.clockwise-button {
+  background-image: url(https://cdn.glitch.com/61ae5b6a-e084-43e1-9667-ae000b4f3e81%2F498-4980685_3d-rotate-icon-3d-rotation-icon-png-transparent.png?v=1619382058528);
+  background-size: 100% 100%;
 }

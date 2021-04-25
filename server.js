@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.use(express.static("public"));
-require('./staticRoutes.js').connect(app)
+require('./routes.js').connect(app)
 
 require('./chatWs.js')(app);
 
