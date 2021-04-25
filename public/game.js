@@ -54,7 +54,7 @@ function setup() {
   // clockwiseButton.addEventListener('mousedown');
 }
 
-let rotateButtonPressed = false;
+let rotateButtonPressed = '';
 let rotateCW = false;
 let rotateCCW = false;
 const $cwb = document.querySelector('.clockwise-button');
@@ -62,6 +62,18 @@ const $ccwb = document.querySelector('.counter-clockwise-button');
 $cwb.addEventListener('mousedown', function() {
   rotateButtonPressed = true;
   rotateCW = true;
+});
+$cwb.addEventListener('mouseup', function() {
+  rotateButtonPressed = false;
+  rotateCW = false;
+});
+$ccwb.addEventListener('mousedown', function() {
+  rotateButtonPressed = true;
+  rotateCCW = true;
+});
+$ccwb.addEventListener('mousedown', function() {
+  rotateButtonPressed = false;
+  rotateCCW = false;
 });
 
 function placeCamera() {
