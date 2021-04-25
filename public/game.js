@@ -86,7 +86,7 @@ function checkVictory() {
   if (result) return result;  
   result = checkLine(v(0, 3, 3), v(1, -1, -1));
   if (result) return result;  
-  result = checkLine(v(0, 0, 0), v(1, 1, 1));
+  result = checkLine(v(0, 3, 0), v(1, -1, 1));
   if (result) return result;  
 }
 
@@ -277,6 +277,10 @@ function handlePieceClick(x, y, z) {
     default:
       gamestate[x][y][z] = 1;
       break;
+  }
+  const victory = checkVictory();
+  if (victory) {
+    console.log(victory);
   }
 }
 
