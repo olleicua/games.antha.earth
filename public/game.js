@@ -54,11 +54,21 @@ function setup() {
   // clockwiseButton.addEventListener('mousedown');
 }
 
+let rotateButtonPressed = false;
+let rotateCW = false;
+let rotateCCW = false;
+const $cwb = document.querySelector('.clockwise-button');
+const $ccwb = document.querySelector('.counter-clockwise-button');
+$cwb.addEventListener('mousedown', function() {
+  rotateButtonPressed = true;
+  rotateCW = true;
+});
+
 function placeCamera() {
-  if (keyIsPressed) {
-    if (keyCode === LEFT_ARROW) {
+  if (keyIsPressed || rotateButtonPressed) {
+    if (keyCode === LEFT_ARROW || rotateCW) {
       cameraAngle -= 0.03;
-    } else if (keyCode === RIGHT_ARROW) {
+    } else if (keyCode === RIGHT_ARROW || rotateCCW) {
       cameraAngle += 0.03;
     }
   }
