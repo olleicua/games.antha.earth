@@ -28,16 +28,66 @@ function checkLine(start, delta) {
   let i;
   const first = gV(start);
   if (first === null) return false;
-  for (let i = 1; i < 4; i++) {
+  for (i = 1; i < 4; i++) {
     start = p5.Vector.add(start, delta);
     if (gamestate[start.x][start.y][start.z] !== first) return false;
   }
-  return first;
+  return [first, start, delta];
 }
 
 function checkVictory() {
-  let
-  for ()
+  let x, y, z;
+  let result;
+  for (x = 0; x < 4; x++) {
+    for (y = 0; y < 4; y++) {
+      result = checkLine(v(x, y, 0), v(0, 0, 1));
+      if (result) return result;
+    }
+  }
+  for (x = 0; x < 4; x++) {
+    for (z = 0; z < 4; z++) {
+      result = checkLine(v(x, 0, z), v(0, 1, 0));
+      if (result) return result;
+    }
+  }
+  for (z = 0; z < 4; z++) {
+    for (y = 0; y < 4; y++) {
+      result = checkLine(v(0, y, z), v(1, 0, 0));
+      if (result) return result;
+    }
+  }
+  for (x = 0; x < 4; x++) {
+    result = checkLine(v(x, 0, 0), v(0, 1, 1));
+    if (result) return result;
+  }
+  for (x = 0; x < 4; x++) {
+    result = checkLine(v(x, 0, 3), v(0, 1, -1));
+    if (result) return result;
+  }
+  for (y = 0; y < 4; y++) {
+    result = checkLine(v(0, y, 0), v(1, 0, 1));
+    if (result) return result;
+  }
+  for (y = 0; y < 4; y++) {
+    result = checkLine(v(0, y, 3), v(1, 0, -1));
+    if (result) return result;
+  }
+  for (z = 0; z < 4; z++) {
+    result = checkLine(v(0, 0, z), v(1, 1, 0));
+    if (result) return result;
+  }
+  for (z = 0; z < 4; z++) {
+    result = checkLine(v(0, 3, z), v(1, -1, 0));
+    if (result) return result;
+  }
+  result = checkLine(v(0, 0, 0), v(1, 1, 1));
+  if (result) return result;  
+  result = checkLine(v(0, 0, 3), v(1, 1, -1));
+  if (result) return result;  
+  result = checkLine(v(0, 3, 3), v(1, -1, -1));
+  if (result) return result;  
+  result = checkLine(v(0, 0, 0), v(1, 1, 1));
+  if (result) return result;  
 }
 
 let rotateButtonPressed = null;
