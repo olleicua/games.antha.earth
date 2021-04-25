@@ -18,7 +18,53 @@ let selectionCanvas, selectionGL;
 const gamestate = [];
 let gameOver = false;
 
+let v;
+
+function gV(vector) {
+  return gamestate[vector.x][vector.y][vector.z];
+}
+
+function checkLine(start, delta) {
+  let i;
+  const first = gV(start);
+  if (first === null) return false;
+  for (let i = 1; i < 4; i++) {
+    start = p5.Vector.add(start, delta);
+    if (gamestate[start.x][start.y][start.z] !== first) return false;
+  }
+  return first;
+}
+
+function checkVictory() {
+  let
+  for ()
+}
+
+let rotateButtonPressed = null;
+const $cwb = document.querySelector('.clockwise-button');
+const $ccwb = document.querySelector('.counter-clockwise-button');
+function setRotateButton(value) {
+  return function() {
+    rotateButtonPressed = value;
+  };
+}
+function resetRotateButton() {
+  rotateButtonPressed = null;
+}
+$cwb.addEventListener('mousedown', setRotateButton('CW'));
+$ccwb.addEventListener('mousedown', setRotateButton('CCW'));
+$cwb.addEventListener('touchstart', setRotateButton('CW'));
+$ccwb.addEventListener('touchstart', setRotateButton('CCW'));
+$cwb.addEventListener('mouseup', resetRotateButton);
+$ccwb.addEventListener('mouseup', resetRotateButton);
+$cwb.addEventListener('mouseleave', resetRotateButton);
+$ccwb.addEventListener('mouseleave', resetRotateButton);
+$cwb.addEventListener('touchend', resetRotateButton);
+$ccwb.addEventListener('touchend', resetRotateButton);
+
 function setup() {
+  v = createVector;
+  
   if (windowWidth <= 600) {
     minAspect = Math.min(windowWidth - 5, windowHeight - 5);    
   } else {
@@ -57,28 +103,6 @@ function setup() {
   // const counterClockwiseButton = document.querySelector('.counter-clockwise-button');
   // clockwiseButton.addEventListener('mousedown');
 }
-
-let rotateButtonPressed = null;
-const $cwb = document.querySelector('.clockwise-button');
-const $ccwb = document.querySelector('.counter-clockwise-button');
-function setRotateButton(value) {
-  return function() {
-    rotateButtonPressed = value;
-  };
-}
-function resetRotateButton() {
-  rotateButtonPressed = null;
-}
-$cwb.addEventListener('mousedown', setRotateButton('CW'));
-$ccwb.addEventListener('mousedown', setRotateButton('CCW'));
-$cwb.addEventListener('touchstart', setRotateButton('CW'));
-$ccwb.addEventListener('touchstart', setRotateButton('CCW'));
-$cwb.addEventListener('mouseup', resetRotateButton);
-$ccwb.addEventListener('mouseup', resetRotateButton);
-$cwb.addEventListener('mouseleave', resetRotateButton);
-$ccwb.addEventListener('mouseleave', resetRotateButton);
-$cwb.addEventListener('touchend', resetRotateButton);
-$ccwb.addEventListener('touchend', resetRotateButton);
 
 function placeCamera() {
   if (keyIsPressed || rotateButtonPressed) {
@@ -121,7 +145,7 @@ function drawBoard(z) {
       selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
       rotateX(TAU / 4);
       selectionCanvas.rotateX(TAU / 4);
-      switch (gamestate[x][y][z]) {
+      switch (gV(v(x, y, z))) {
         case 1:
           ambientMaterial(255, 31, 31);
           break;
@@ -166,27 +190,6 @@ function drawUI() {
   //       - display claim status
   //       - allow game to be forfeited
   //       - when game is over allow game to be reset
-}
-
-const v = createVector;
-
-function checkLine(start, delta) {
-  const first = gamestate[start.x][start.y][start.z];
-  if (first === null) return false;
-  for (let i = 1; i < 4; i++) {
-    
-  }
-}
-
-function checkVictory() {
-  lines = [
-    [v(1, 0, 0), [
-      v(0, 0, 0),
-      v(0, 0, 0),
-      v(0, 0, 0),
-      v(0, 0, 0),
-    ]]
-  ]
 }
 
 function draw() {
