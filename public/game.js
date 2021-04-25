@@ -19,7 +19,11 @@ const gamestate = [];
 let gameOver = false;
 
 function setup() {
-  minAspect = Math.min(windowWidth - 200, windowHeight - 5);
+  if (windowWidth <= 600) {
+    
+  } else
+    minAspect = Math.min(windowWidth - 200, windowHeight - 5);
+  }
   let canvas = createCanvas(minAspect, minAspect, WEBGL);
   canvas.parent('game');
   pixelDensity(1);
@@ -54,33 +58,33 @@ function setup() {
   // clockwiseButton.addEventListener('mousedown');
 }
 
-let rotateButtonPressed = '';
-let rotateCW = false;
-let rotateCCW = false;
+let rotateButtonPressed = null;
 const $cwb = document.querySelector('.clockwise-button');
 const $ccwb = document.querySelector('.counter-clockwise-button');
-$cwb.addEventListener('mousedown', function() {
-  rotateButtonPressed = true;
-  rotateCW = true;
-});
-$cwb.addEventListener('mouseup', function() {
-  rotateButtonPressed = false;
-  rotateCW = false;
-});
-$ccwb.addEventListener('mousedown', function() {
-  rotateButtonPressed = true;
-  rotateCCW = true;
-});
-$ccwb.addEventListener('mousedown', function() {
-  rotateButtonPressed = false;
-  rotateCCW = false;
-});
+function setRotateButton(value) {
+  return function() {
+    rotateButtonPressed = value;
+  };
+}
+function resetRotateButton() {
+  rotateButtonPressed = null;
+}
+$cwb.addEventListener('mousedown', setRotateButton('CW'));
+$ccwb.addEventListener('mousedown', setRotateButton('CCW'));
+$cwb.addEventListener('touchstart', setRotateButton('CW'));
+$ccwb.addEventListener('touchstart', setRotateButton('CCW'));
+$cwb.addEventListener('mouseup', resetRotateButton);
+$ccwb.addEventListener('mouseup', resetRotateButton);
+$cwb.addEventListener('mouseleave', resetRotateButton);
+$ccwb.addEventListener('mouseleave', resetRotateButton);
+$cwb.addEventListener('touchend', resetRotateButton);
+$ccwb.addEventListener('touchend', resetRotateButton);
 
 function placeCamera() {
   if (keyIsPressed || rotateButtonPressed) {
-    if (keyCode === LEFT_ARROW || rotateCW) {
+    if (keyCode === LEFT_ARROW || rotateButtonPressed === 'CW') {
       cameraAngle -= 0.03;
-    } else if (keyCode === RIGHT_ARROW || rotateCCW) {
+    } else if (keyCode === RIGHT_ARROW || rotateButtonPressed === 'CCW') {
       cameraAngle += 0.03;
     }
   }
