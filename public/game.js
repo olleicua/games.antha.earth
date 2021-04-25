@@ -20,8 +20,8 @@ let gameOver = false;
 
 function setup() {
   if (windowWidth <= 600) {
-    
-  } else
+    minAspect = Math.min(windowWidth - 5, windowHeight - 5);    
+  } else {
     minAspect = Math.min(windowWidth - 200, windowHeight - 5);
   }
   let canvas = createCanvas(minAspect, minAspect, WEBGL);
