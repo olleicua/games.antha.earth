@@ -114,8 +114,14 @@ $ccwb.addEventListener('mouseleave', resetRotateButton);
 $cwb.addEventListener('touchend', resetRotateButton);
 $ccwb.addEventListener('touchend', resetRotateButton);
 
+const playerColors = [];
+
 function setup() {
   v = createVector;
+  
+  playerColors[0] = color(159, 159, 255); // default
+  playerColors[1] = color(255, 31, 31); // player 1
+  playerColors[2] = color(31, 255, 31); // player 2
   
   if (windowWidth <= 600) {
     minAspect = Math.min(windowWidth - 5, windowHeight - 5);    
@@ -197,18 +203,19 @@ function drawBoard(z) {
       selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
       rotateX(TAU / 4);
       selectionCanvas.rotateX(TAU / 4);
-      switch (gV(v(x, y, z))) {
-        case 1:
-          ambientMaterial(255, 31, 31);
-          break;
-        case 2:
-          ambientMaterial(31, 255, 31);
-          break;
-        default:
-          ambientMaterial(159, 159, 255);
-          break;
+      ambientMaterial(playerColors[gV(v(x, y, z)) || 0])
+//       switch (gV(v(x, y, z))) {
+//         case 1:
+//           ambientMaterial(255, 31, 31);
+//           break;
+//         case 2:
+//           ambientMaterial(31, 255, 31);
+//           break;
+//         default:
+//           ambientMaterial(159, 159, 255);
+//           break;
           
-      }
+//       }
       selectionCanvas.fill(x, y, z);
       //selectionCanvas.fill(32 * x, 32 * y, 32 * z);
       cylinder(boardSide / 12, pieceHeight);
@@ -219,6 +226,10 @@ function drawBoard(z) {
   }
   pop();
   selectionCanvas.pop();
+}
+
+function drawVictory() {
+  
 }
 
 function drawGame() {
@@ -234,6 +245,7 @@ function drawGame() {
   translate(0, 0, verticalSpacing);
   selectionCanvas.translate(0, 0, verticalSpacing)
   drawBoard(3);
+  if (victoryResult) drawVictory();
 }
 
 function drawUI() {
