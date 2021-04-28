@@ -204,20 +204,7 @@ function drawBoard(z) {
       rotateX(TAU / 4);
       selectionCanvas.rotateX(TAU / 4);
       ambientMaterial(playerColors[gV(v(x, y, z)) || 0])
-//       switch (gV(v(x, y, z))) {
-//         case 1:
-//           ambientMaterial(255, 31, 31);
-//           break;
-//         case 2:
-//           ambientMaterial(31, 255, 31);
-//           break;
-//         default:
-//           ambientMaterial(159, 159, 255);
-//           break;
-          
-//       }
       selectionCanvas.fill(x, y, z);
-      //selectionCanvas.fill(32 * x, 32 * y, 32 * z);
       cylinder(boardSide / 12, pieceHeight);
       selectionCanvas.cylinder(boardSide / 12, pieceHeight);
       pop();
@@ -229,7 +216,9 @@ function drawBoard(z) {
 }
 
 function drawVictory() {
-  
+  const [player, start, delta] = victoryResult;
+  const victoryHeight = 
+  cylinder(boardSide / 12, victoryHeight)
 }
 
 function drawGame() {
