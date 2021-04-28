@@ -17,6 +17,7 @@ let selectionCanvas, selectionGL;
 
 const gamestate = [];
 let gameOver = false;
+let victoryResult = null;
 
 let v;
 
@@ -26,11 +27,12 @@ function gV(vector) {
 
 function checkLine(start, delta) {
   let i;
+  let position = start.copy();
   const first = gV(start);
   if (first === null) return false;
   for (i = 1; i < 4; i++) {
-    start = p5.Vector.add(start, delta);
-    if (gamestate[start.x][start.y][start.z] !== first) return false;
+    position = p5.Vector.add(position, delta);
+    if (gV(position) !== first) return false;
   }
   return [first, start, delta];
 }
@@ -280,7 +282,8 @@ function handlePieceClick(x, y, z) {
   }
   const victory = checkVictory();
   if (victory) {
-    console.log(victory);
+    gameOver = true;
+    victoryResult = victory;
   }
 }
 
