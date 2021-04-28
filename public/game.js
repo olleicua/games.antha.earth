@@ -215,11 +215,15 @@ function drawBoard(z) {
   selectionCanvas.pop();
 }
 
+function addAlpha(color, alpha) {
+  return color(`rgba(${color._getRed()}, ${color._getGreen()}, ${color._getBlue()}, ${alpha})`);
+}
+
 function drawVictory() {
   const [player, start, delta] = victoryResult;
   push();
   translate(- 3 * boardSide / 8, - 3 * boardSide / 8, (pieceHeight / 2));
-  ambientMaterial(playerColors[player]);
+  ambientMaterial(addAlpha(playerColors[player], 0.5));
   // a vector from piece 0, 0, 0 to piece 3, 3, 3
   const distortion = v(
     3 * boardSide / 4,
@@ -236,7 +240,9 @@ function drawVictory() {
     rotateZ(- Math.atan(delta.x / delta.y));
   }
   if (delta.z !== 0) {
-    rotateX(Math.atan((delta.z * 2) / Math.sqrt((delta.x * delta.x) + (delta.y * delta.y))));
+    let xRot = Math.atan((delta.z * 2) / Math.sqrt((delta.x * delta.x) + (delta.y * delta.y)));
+    if (delta.x * delta.y === -1) rotateX(-xRot);
+    else rotateX(xRot);
   }
   cylinder(boardSide / 45, cylinderVector.mag());
   pop();
