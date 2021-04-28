@@ -29,7 +29,7 @@ function checkLine(start, delta) {
   let i;
   let position = start.copy();
   const first = gV(start);
-  if (first === null) return false;
+  if (first === 0) return false;
   for (i = 1; i < 4; i++) {
     position = p5.Vector.add(position, delta);
     if (gV(position) !== first) return false;
@@ -152,7 +152,7 @@ function setup() {
     for (let y = 0; y < 4; y ++) {
       gamestate[x].push([]);
       for (let z = 0; z < 4; z ++) {
-        gamestate[x][y].push(null);
+        gamestate[x][y].push(0);
       }
     }
   }
@@ -203,7 +203,7 @@ function drawBoard(z) {
       selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
       rotateX(TAU / 4);
       selectionCanvas.rotateX(TAU / 4);
-      ambientMaterial(playerColors[gV(v(x, y, z)) || 0])
+      ambientMaterial(playerColors[gV(v(x, y, z))])
       selectionCanvas.fill(x, y, z);
       cylinder(boardSide / 12, pieceHeight);
       selectionCanvas.cylinder(boardSide / 12, pieceHeight);
@@ -218,9 +218,9 @@ function drawBoard(z) {
 function drawVictory() {
   const [player, start, delta] = victoryResult;
   push();
-  translate(- 3 * boardSide / 8, - 3 * boardSide / 8, - 3 * verticalSpacing);
+  translate(- 3 * boardSide / 8, - 3 * boardSide / 8, (- 3 * verticalSpacing) + (pieceHeight / 2));
   ambientMaterial(playerColors[player]);
-  // a vector from piece 0, 0, 0 to piece 1, 1, 1
+  // a vector from piece 0, 0, 0 to piece 3, 3, 3
   const distortion = v(
     3 * boardSide / 4,
     3 * boardSide / 4,
@@ -228,11 +228,12 @@ function drawVictory() {
   // a spacial vector representing the length of the cylinder
   const cylinderVector = p5.Vector.mult(delta, distortion);
   // a spacial vector representing the start position of the cylinder
-  const startPosition = p5.Vector.mult(start, distortion);
+  const startPosition = p5.Vector.div(p5.Vector.mult(start, distortion);
   // translate to the center of the cylinder
-  translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
+  console.log(start, de)
+  //translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
   // TODO: rotate
-  cylinder(boardSide / 12, cylinderVector.mag());
+  cylinder(boardSide / 30, cylinderVector.mag());
   pop();
 }
 
