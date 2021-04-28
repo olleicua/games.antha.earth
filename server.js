@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require('express-ws')(app);
 
 app.use(express.static("public"));
 require('./routes.js').connect(app)

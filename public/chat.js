@@ -24,15 +24,16 @@ connection.onmessage = (event) => {
   }
 };
 
-button.addEventListener("click", () => {
-  const name = document.querySelector("#name");
-  const message = document.querySelector("#message");
+const name = document.querySelector("#name");
+const message = document.querySelector("#message");
+const sendMessage = () => {
   const data = [name.value, message.value];
 
   // Send composed message to the server
   connection.send(JSON.stringify(data));
 
-  // clear input fields
-  name.value = "";
   message.value = "";
-});
+};
+
+button.addEventListener("click", sendMessage);
+message.addEventListener("change", sendMessage);
