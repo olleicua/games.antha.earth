@@ -218,7 +218,7 @@ function drawBoard(z) {
 function drawVictory() {
   const [player, start, delta] = victoryResult;
   push();
-  translate(- 3 * boardSide / 8, - 3 * boardSide / 8, (- 3 * verticalSpacing) + (pieceHeight / 2));
+  translate(- 3 * boardSide / 8, - 3 * boardSide / 8, (pieceHeight / 2));
   ambientMaterial(playerColors[player]);
   // a vector from piece 0, 0, 0 to piece 3, 3, 3
   const distortion = v(
@@ -236,7 +236,7 @@ function drawVictory() {
     rotateZ(- Math.atan(delta.x / delta.y));
   }
   if (delta.z !== 0) {
-    rotateX(Math.atan((delta.z * (verticalSpacing / (boardSide / 3))) / delta.y));
+    rotateX(Math.atan((delta.z) / delta.y));
   }
   cylinder(boardSide / 45, cylinderVector.mag());
   pop();
@@ -244,6 +244,9 @@ function drawVictory() {
 
 function drawGame() {
   translate(0, 0, -1.5 * verticalSpacing)
+  if (victoryResult) {
+      drawVictory();
+  }
   selectionCanvas.translate(0, 0, -1.5 * verticalSpacing)
   drawBoard(0);
   translate(0, 0, verticalSpacing);
@@ -255,9 +258,6 @@ function drawGame() {
   translate(0, 0, verticalSpacing);
   selectionCanvas.translate(0, 0, verticalSpacing)
   drawBoard(3);
-  if (victoryResult) {
-      drawVictory();
-  }
 }
 
 function drawUI() {
