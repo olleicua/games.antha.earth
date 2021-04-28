@@ -215,8 +215,8 @@ function drawBoard(z) {
   selectionCanvas.pop();
 }
 
-function addAlpha(color, alpha) {
-  return color(`rgba(${color._getRed()}, ${color._getGreen()}, ${color._getBlue()}, ${alpha})`);
+function addAlpha(c, alpha) {
+  return color(`rgba(${c._getRed()}, ${c._getGreen()}, ${c._getBlue()}, ${alpha})`);
 }
 
 function drawVictory() {
@@ -286,9 +286,6 @@ function draw() {
   noStroke();
   selectionCanvas.noStroke();
   
-  // TODO: check if there is a winner and highlight the winning line
-  //checkVictory();
-  
   rotateX(TAU / 4);
   selectionCanvas.rotateX(TAU / 4);
   drawGame();
@@ -319,6 +316,8 @@ function handlePieceClick(x, y, z) {
   }
 }
 
+function touchStarted() {}
+
 function mousePressed() {
   let pixel = new Uint8Array(4);
   selectionGL.readPixels(mouseX, height - mouseY, 1, 1,
@@ -332,6 +331,8 @@ function mousePressed() {
     handlePieceClick(pixel[0], pixel[1], pixel[2]);
     // handle UI clicks
   }
+  
+  return false
 }
 
 // TODO: recieve web-socket messages from a server
