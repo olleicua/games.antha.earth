@@ -45,8 +45,13 @@ module.exports = (app) => {
           if (redPlayer.id === client.id || greenPlayer.id === client.id) return;
           switch (message.color) {
             case 'red':
-              if (!!redplayer) return;
-              red
+              if (!!redPlayer) return;
+              redPlayer = client;
+              break;
+            case 'green':
+              if (!!greenPlayer) return;
+              greenPlayer = client;
+              break;
           }
           break;
         case 'play':
@@ -56,7 +61,6 @@ module.exports = (app) => {
         default:
           return;
       }
-
       
       
       
