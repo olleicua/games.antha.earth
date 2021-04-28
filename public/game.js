@@ -236,7 +236,7 @@ function drawVictory() {
     rotateZ(- Math.atan(delta.x / delta.y));
   }
   if (delta.z !== 0) {
-    rotateX(Math.atan((delta.z) / delta.y));
+    rotateX(Math.atan((delta.z) / delta.x));
   }
   cylinder(boardSide / 45, cylinderVector.mag());
   pop();
