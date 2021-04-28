@@ -228,10 +228,9 @@ function drawVictory() {
   // a spacial vector representing the length of the cylinder
   const cylinderVector = p5.Vector.mult(delta, distortion);
   // a spacial vector representing the start position of the cylinder
-  const startPosition = p5.Vector.div(p5.Vector.mult(start, distortion);
+  const startPosition = p5.Vector.mult(start, p5.Vector.div(distortion, 3));
   // translate to the center of the cylinder
-  console.log(start, de)
-  //translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
+  translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
   // TODO: rotate
   cylinder(boardSide / 30, cylinderVector.mag());
   pop();
@@ -286,6 +285,8 @@ function draw() {
 }
 
 function handlePieceClick(x, y, z) {
+  console.log(x,y,z);
+
   // TODO: Instead of rotating through colors this should set the color to
   //       the player's color if not already set and then push state to the server
   switch (gamestate[x][y][z]) {
@@ -293,7 +294,7 @@ function handlePieceClick(x, y, z) {
       gamestate[x][y][z] = 2;
       break;
     case 2:
-      gamestate[x][y][z] = null;
+      gamestate[x][y][z] = 0;
       break;
     default:
       gamestate[x][y][z] = 1;
