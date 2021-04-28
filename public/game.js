@@ -218,16 +218,22 @@ function drawBoard(z) {
 function drawVictory() {
   const [player, start, delta] = victoryResult;
   push();
+  translate(- 3 * boardSide / 8, - 3 * boardSide / 8, - 3 * verticalSpacing);
   ambientMaterial(playerColors[player]);
-  // a spacial vector representing the length of the cylinder to be drawn in each dimention
-  const cylinderVector = v(
-    delta.x * 3 * boardSide / 4,
-    delta.y * 3 * boardSide / 4,
-    delta.z * 3 * verticalSpacing);
-  // a spaciat
-  const startPosition = 
-  translate(p5.Vector.add(start, ));
+  // a vector from piece 0, 0, 0 to piece 1, 1, 1
+  const distortion = v(
+    3 * boardSide / 4,
+    3 * boardSide / 4,
+    3 * verticalSpacing);
+  // a spacial vector representing the length of the cylinder
+  const cylinderVector = p5.Vector.mult(delta, distortion);
+  // a spacial vector representing the start position of the cylinder
+  const startPosition = p5.Vector.mult(start, distortion);
+  // translate to the center of the cylinder
+  translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
+  // TODO: rotate
   cylinder(boardSide / 12, cylinderVector.mag());
+  pop();
 }
 
 function drawGame() {
@@ -244,7 +250,6 @@ function drawGame() {
   selectionCanvas.translate(0, 0, verticalSpacing)
   drawBoard(3);
   if (victoryResult) {
-      translate(0, 0, - 3 * verticalSpacing);
       drawVictory();
   }
 }
