@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 
 const clients = [];
 
-const gameState = [];
+const gamestate = [];
 for (let x = 0; x < 4; x ++) {
   gamestate.push([]);
   for (let y = 0; y < 4; y ++) {
