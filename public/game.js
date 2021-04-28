@@ -219,12 +219,15 @@ function drawVictory() {
   const [player, start, delta] = victoryResult;
   push();
   ambientMaterial(playerColors[player]);
-  const dx = delta.x * 3 * boardSide / 4;
-  const dy = delta.y * 3 * boardSide / 4;
-  const dz = delta.z * 3 * verticalSpacing;
-  translate(start.x + );
-  const victoryLength = Math.sqrt(dx + dy + dz);
-  cylinder(boardSide / 12, victoryLength);
+  // a spacial vector representing the length of the cylinder to be drawn in each dimention
+  const cylinderVector = v(
+    delta.x * 3 * boardSide / 4,
+    delta.y * 3 * boardSide / 4,
+    delta.z * 3 * verticalSpacing);
+  // a spaciat
+  const startPosition = 
+  translate(p5.Vector.add(start, ));
+  cylinder(boardSide / 12, cylinderVector.mag());
 }
 
 function drawGame() {
