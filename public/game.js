@@ -21,6 +21,8 @@ let victoryResult = null;
 
 let v;
 
+// FIXME: victory checking should happen on the server
+
 function gV(vector) {
   return gamestate[vector.x][vector.y][vector.z];
 }
