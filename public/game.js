@@ -232,6 +232,8 @@ function drawVictory() {
   // translate to the center of the cylinder
   translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
   // TODO: rotate
+  if (delta.x10)
+  rotateZ()
   cylinder(boardSide / 30, cylinderVector.mag());
   pop();
 }
