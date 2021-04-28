@@ -217,8 +217,14 @@ function drawBoard(z) {
 
 function drawVictory() {
   const [player, start, delta] = victoryResult;
-  const victoryHeight = 
-  cylinder(boardSide / 12, victoryHeight)
+  push();
+  ambientMaterial(playerColors[player]);
+  const dx = delta.x * 3 * boardSide / 4;
+  const dy = delta.y * 3 * boardSide / 4;
+  const dz = delta.z * 3 * verticalSpacing;
+  translate(start.x + );
+  const victoryLength = Math.sqrt(dx + dy + dz);
+  cylinder(boardSide / 12, victoryLength);
 }
 
 function drawGame() {
@@ -234,7 +240,10 @@ function drawGame() {
   translate(0, 0, verticalSpacing);
   selectionCanvas.translate(0, 0, verticalSpacing)
   drawBoard(3);
-  if (victoryResult) drawVictory();
+  if (victoryResult) {
+      translate(0, 0, - 3 * verticalSpacing);
+      drawVictory();
+  }
 }
 
 function drawUI() {
