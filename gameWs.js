@@ -3,6 +3,7 @@ const WebSocket = require('ws');
 const clients = [];
 
 const gamestate = [];
+let turn = null;
 
 const reset = () => {
   for (let x = 0; x < 4; x ++) {
@@ -14,6 +15,7 @@ const reset = () => {
       }
     }
   }
+  turn = 1;
 };
 reset();
 let redPlayer = null;
@@ -21,20 +23,43 @@ let greenPlayer = null;
 
 const updateClient = (client) => {
   client.send(JSON.stringify({
-    gamestate: gamestate,
-    
+    gamestate,
+    turn,
+    red: !redPlayer ? 'available' : redPlayer.id === client.id ? 'you' : 'someone',
+    green: !greenPlayer ? 'available' : greenPlayer.id === client.id ? 'you' : 'someone',
   }));
 };
 
 module.exports = (app) => {
   app.ws('/game', (client, request) => {
-    //client.id = clients.length
+    client.id = clients.length
     clients.push(client);
 
-    client.send(JSON.stringify(messages));
+    updateClient(client);
 
     client.on('message', (data) => {
+      
       const message = JSON.parse(data);
+      switch (message.action) {
+        case 'claim':
+          if (redPlayer.id === client.id || greenPlayer.id === client.id) return;
+          switch (message.color) {
+            case 'red':
+              if (!!redplayer) return;
+              red
+          }
+          break;
+        case 'play':
+          break;
+        case 'reset':
+          break;
+        default:
+          return;
+      }
+
+      
+      
+      
       messages.push(message);
 
       clients.forEach((target) => {
