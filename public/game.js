@@ -19,6 +19,24 @@ const gamestate = [];
 let gameOver = false;
 let victoryResult = null;
 
+const connection = new WebSocket("ws://3d-connect-4.glitch.me:80/game");
+const $connectionStatus = document.querySelector('.connection-status');
+connection.onopen = (event) => {
+  $connectionStatus.innerHTML = 'connected';
+};
+
+connection.onclose = (event) => {
+  $connectionStatus.innerHTML = 'connection closed';
+};
+
+connection.onerror = (event) => {
+  $connectionStatus.innerHTML = 'something went wrong';
+};
+
+connection.onmessage = (event) => {
+};
+
+
 let v;
 
 // FIXME: victory checking should happen on the server

@@ -16,7 +16,7 @@ let redPlayer = null;
 let greenPlayer = null;
 
 module.exports = (app) => {
-  app.ws('/chat', (client, request) => {
+  app.ws('/game', (client, request) => {
     //client.id = clients.length
     clients.push(client);
 

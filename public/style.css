@@ -56,6 +56,14 @@ body {
   background-color: #0f0;
 }
 
+.taken, .you {
+  display: none;
+}
+
+.reset-button {
+  display: none;
+}
+
 @media only screen and (max-width: 600px) {
   #game, .controls {
     display: block;
