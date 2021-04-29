@@ -15,7 +15,7 @@ let minAspect, boardSide, verticalSpacing,
 
 let selectionCanvas, selectionGL;
 
-const gamestate = [];
+let gamestate = [];
 let gameOver = false;
 let victoryResult = null;
 
@@ -33,7 +33,22 @@ connection.onerror = (event) => {
   $connectionStatus.innerHTML = 'something went wrong';
 };
 
+const $turn = document.querySelector('.turn');
+
 connection.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+  gamestate = message.gamestate;
+  switch (message.turn) {
+    case 1:
+      $turn.innerHTML = 'it\'s red\'s turn';
+      break;
+    case 2:
+      $turn.innerHTML = 'it\'s green\'s turn';
+      break;
+    default:
+      throw 'turn should be 1 or 2'
+  }
+  
 };
 
 

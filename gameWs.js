@@ -20,13 +20,14 @@ const reset = () => {
 reset();
 let redPlayer = null;
 let greenPlayer = null;
-
+let resetting = false;
 const updateClient = (client) => {
   client.send(JSON.stringify({
     gamestate,
     turn,
     red: !redPlayer ? 'available' : redPlayer.id === client.id ? 'you' : 'someone',
     green: !greenPlayer ? 'available' : greenPlayer.id === client.id ? 'you' : 'someone',
+    reset: resetting
   }));
 };
 
@@ -78,6 +79,7 @@ module.exports = (app) => {
           }
           break;
         case 'reset':
+          resetting = true;
           reset();
           break;
         default:
@@ -89,6 +91,8 @@ module.exports = (app) => {
           updateClient(target);
         }
       });
+      
+      resetting = false;
     });
   });
 };
