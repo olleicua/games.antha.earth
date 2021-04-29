@@ -37,7 +37,16 @@ const $turn = document.querySelector('.turn');
 
 connection.onmessage = (event) => {
   const message = JSON.parse(event.data);
+
+  if (message.reset) {
+    gameOver = false;
+    victoryResult = null;
+  }
+  
+  if (gameOver) return;
+
   gamestate = message.gamestate;
+
   switch (message.turn) {
     case 1:
       $turn.innerHTML = 'it\'s red\'s turn';
@@ -48,7 +57,32 @@ connection.onmessage = (event) => {
     default:
       throw 'turn should be 1 or 2'
   }
+
+  document.querySelectorAll('.taken, .you, .claim-button').forEach(($el) => {
+    $el.style.display = 'none';
+  });
+  ['red', 'green'].forEach((player) => {
+    switch (message[player]) {
+      case 'available':
+        document.querySelector(`.${player}-player .claim-button`).style.display = 'inline-block'
+        break;
+      case 'someone':
+        document.querySelector(`.${player}-player .taken`).style.display = 'inline-block'
+        break;
+      case 'you':
+        document.querySelector(`.${player}-player .you`).style.display = 'inline-block'
+        break;
+      default:
+        throw 'turn should be 1 or 2'
+    }
+  });
   
+    const victory = checkVictory();
+  if (victory) {
+    gameOver = true;
+    victoryResult = victory;
+  }
+
 };
 
 
@@ -333,21 +367,7 @@ function handlePieceClick(x, y, z) {
 
   // TODO: Instead of rotating through colors this should set the color to
   //       the player's color if not already set and then push state to the server
-  switch (gamestate[x][y][z]) {
-    case 1:
-      gamestate[x][y][z] = 2;
-      break;
-    case 2:
-      gamestate[x][y][z] = 0;
-      break;
-    default:
-      gamestate[x][y][z] = 1;
-      break;
-  }
-  const victory = checkVictory();
-  if (victory) {
-    gameOver = true;
-    victoryResult = victory;
+  if (gamestate[x][y][z] === 0) {
   }
 }
 
