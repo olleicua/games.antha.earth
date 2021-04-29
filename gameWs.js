@@ -31,7 +31,8 @@ const updateClient = (client) => {
     turn,
     red: !redPlayer ? 'available' : (redPlayer && (redPlayer.id === client.id)) ? 'you' : 'someone',
     green: !greenPlayer ? 'available' : (greenPlayer && (greenPlayer.id === client.id)) ? 'you' : 'someone',
-    reset: resetting
+    reset: resetting,
+    connection_count: clients.length
   }));
 };
 

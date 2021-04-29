@@ -38,6 +38,8 @@ const $turn = document.querySelector('.turn');
 connection.onmessage = (event) => {
   const message = JSON.parse(event.data);
 
+  document.querySelector('.connection-count').innerHTML = message.connection_count;
+  
   if (message.reset) {
     gameOver = false;
     victoryResult = null;
