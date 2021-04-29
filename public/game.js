@@ -43,11 +43,7 @@ connection.onmessage = (event) => {
     victoryResult = null;
   }
   
-  if (gameOver) return;
-
-  gamestate = message.gamestate;
-
-  if (victoryResult) {
+  if (gameOver) {
     switch (victoryResult[0]) {
       case 1:
         $turn.innerHTML = 'red won';
@@ -56,19 +52,22 @@ connection.onmessage = (event) => {
         $turn.innerHTML = 'green won';
         break;
       default:
-        throw 'turn should be 1 or 2'
+        throw 'winner should be 1 or 2'
     }
-  } else {
-    switch (message.turn) {
-      case 1:
-        $turn.innerHTML = 'it\'s red\'s turn';
-        break;
-      case 2:
-        $turn.innerHTML = 'it\'s green\'s turn';
-        break;
-      default:
-        throw 'turn should be 1 or 2'
-    }
+    return;
+  }
+
+  gamestate = message.gamestate;
+
+  switch (message.turn) {
+    case 1:
+      $turn.innerHTML = 'it\'s red\'s turn';
+      break;
+    case 2:
+      $turn.innerHTML = 'it\'s green\'s turn';
+      break;
+    default:
+      throw 'turn should be 1 or 2'
   }
 
   document.querySelectorAll('.taken, .you, .claim-button').forEach(($el) => {

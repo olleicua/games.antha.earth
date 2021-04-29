@@ -4,6 +4,8 @@ const clients = [];
 
 let gamestate = [];
 let turn = null;
+let redPlayer = null;
+let greenPlayer = null;
 
 const reset = () => {
   gamestate = [];
@@ -17,17 +19,18 @@ const reset = () => {
     }
   }
   turn = 1;
+  redPlayer = null;
+  greenPlayer = null;
 };
 reset();
-let redPlayer = null;
-let greenPlayer = null;
+
 let resetting = false;
 const updateClient = (client) => {
   client.send(JSON.stringify({
     gamestate,
     turn,
-    red: !redPlayer ? 'available' : redPlayer.id === client.id ? 'you' : 'someone',
-    green: !greenPlayer ? 'available' : greenPlayer.id === client.id ? 'you' : 'someone',
+    red: !redPlayer ? 'available' : (redPlayer && (redPlayer.id === client.id)) ? 'you' : 'someone',
+    green: !greenPlayer ? 'available' : (greenPlayer && (greenPlayer.id === client.id)) ? 'you' : 'someone',
     reset: resetting
   }));
 };
