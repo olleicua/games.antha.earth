@@ -24,7 +24,17 @@ const reset = () => {
 };
 reset();
 
-
+const broadcast = () => {
+  clients.forEach((target) => {
+    if (target.lastPing < Date.now - 10000 || target.readyState !== WebSocket.OPEN) {
+      target.connected = false;
+    }
+  })
+    if (target.connected) {
+      updateClient(target);
+    }
+  });
+};
 
 let resetting = false;
 const updateClient = (client) => {
@@ -34,21 +44,18 @@ const updateClient = (client) => {
     red: !redPlayer ? 'available' : (redPlayer && (redPlayer.id === client.id)) ? 'you' : 'someone',
     green: !greenPlayer ? 'available' : (greenPlayer && (greenPlayer.id === client.id)) ? 'you' : 'someone',
     reset: resetting,
-    connection_count: clients.length
+    connection_count: clients.filter(t => t.connected).length
   }));
 };
 
 module.exports = (app) => {
   app.ws('/game', (client, request) => {
     client.id = clients.length;
+    client.connected = true;
     client.lastPing = Date.now;
     clients.push(client);
 
-    clients.forEach((target) => {
-      if (target.readyState === WebSocket.OPEN) {
-        updateClient(target);
-      }
-    });
+    broadcast();
 
     client.on('message', (data) => {
       let x, y, z;
