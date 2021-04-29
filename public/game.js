@@ -47,15 +47,28 @@ connection.onmessage = (event) => {
 
   gamestate = message.gamestate;
 
-  switch (message.turn) {
-    case 1:
-      $turn.innerHTML = 'it\'s red\'s turn';
-      break;
-    case 2:
-      $turn.innerHTML = 'it\'s green\'s turn';
-      break;
-    default:
-      throw 'turn should be 1 or 2'
+  if (victoryResult) {
+    switch (victoryResult[0]) {
+      case 1:
+        $turn.innerHTML = 'red won';
+        break;
+      case 2:
+        $turn.innerHTML = 'green won';
+        break;
+      default:
+        throw 'turn should be 1 or 2'
+    }
+  } else {
+    switch (message.turn) {
+      case 1:
+        $turn.innerHTML = 'it\'s red\'s turn';
+        break;
+      case 2:
+        $turn.innerHTML = 'it\'s green\'s turn';
+        break;
+      default:
+        throw 'turn should be 1 or 2'
+    }
   }
 
   document.querySelectorAll('.taken, .you, .claim-button').forEach(($el) => {
@@ -77,18 +90,34 @@ connection.onmessage = (event) => {
     }
   });
   
-    const victory = checkVictory();
+  let victory = checkVictory();
   if (victory) {
     gameOver = true;
     victoryResult = victory;
   }
-
 };
 
+document.querySelector('.red-player .claim-button').addEventListener('click', () => {
+  connection.send(JSON.stringify({
+    action: 'claim',
+    color: 'red'
+  }));
+});
+document.querySelector('.green-player .claim-button').addEventListener('click', () => {
+  connection.send(JSON.stringify({
+    action: 'claim',
+    color: 'green'
+  }));
+});
+document.querySelector('.reset-button').addEventListener('click', () => {
+  connection.send(JSON.stringify({
+    action: 'reset'
+  }));
+});
 
 let v;
 
-// FIXME: victory checking should happen on the server
+// FIXME: victory checking could happen on the server maybe.. but vector libraries.. idk
 
 function gV(vector) {
   return gamestate[vector.x][vector.y][vector.z];
@@ -368,6 +397,10 @@ function handlePieceClick(x, y, z) {
   // TODO: Instead of rotating through colors this should set the color to
   //       the player's color if not already set and then push state to the server
   if (gamestate[x][y][z] === 0) {
+    connection.send(JSON.stringify({
+      action: 'play',
+      position: [x, y, z]
+    }));
   }
 }
 

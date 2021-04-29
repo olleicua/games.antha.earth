@@ -2,10 +2,11 @@ const WebSocket = require('ws');
 
 const clients = [];
 
-const gamestate = [];
+let gamestate = [];
 let turn = null;
 
 const reset = () => {
+  gamestate = [];
   for (let x = 0; x < 4; x ++) {
     gamestate.push([]);
     for (let y = 0; y < 4; y ++) {
@@ -44,7 +45,7 @@ module.exports = (app) => {
       const message = JSON.parse(data);
       switch (message.action) {
         case 'claim':
-          if (redPlayer.id === client.id || greenPlayer.id === client.id) return;
+          if ((redPlayer && redPlayer.id === client.id) || (greenPlayer && greenPlayer.id === client.id)) return;
           switch (message.color) {
             case 'red':
               if (!!redPlayer) return;
