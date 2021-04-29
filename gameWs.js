@@ -29,7 +29,8 @@ const broadcast = () => {
     if (target.lastPing < Date.now - 10000 || target.readyState !== WebSocket.OPEN) {
       target.connected = false;
     }
-  })
+  });
+  clients.forEach((target) => {
     if (target.connected) {
       updateClient(target);
     }
