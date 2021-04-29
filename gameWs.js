@@ -24,6 +24,8 @@ const reset = () => {
 };
 reset();
 
+
+
 let resetting = false;
 const updateClient = (client) => {
   client.send(JSON.stringify({
@@ -38,17 +40,23 @@ const updateClient = (client) => {
 
 module.exports = (app) => {
   app.ws('/game', (client, request) => {
-    client.id = clients.length
+    client.id = clients.length;
+    client.lastPing = Date.now;
     clients.push(client);
 
-    updateClient(client);
+    clients.forEach((target) => {
+      if (target.readyState === WebSocket.OPEN) {
+        updateClient(target);
+      }
+    });
 
     client.on('message', (data) => {
       let x, y, z;
-      
+
       const message = JSON.parse(data);
       switch (message.action) {
         case 'claim':
+          client.lastPing = Date.now;
           if ((redPlayer && redPlayer.id === client.id) || (greenPlayer && greenPlayer.id === client.id)) return;
           switch (message.color) {
             case 'red':
@@ -64,6 +72,7 @@ module.exports = (app) => {
           }
           break;
         case 'play':
+          client.lastPing = Date.now;
           switch (turn) {
             case 1:
               if (redPlayer.id !== client.id) return;
@@ -84,9 +93,13 @@ module.exports = (app) => {
           }
           break;
         case 'reset':
+          client.lastPing = Date.now;
           resetting = true;
           reset();
           break;
+        case 'ping':
+          client.lastPing = Date.now;
+          return;
         default:
           return;
       }

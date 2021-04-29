@@ -38,7 +38,7 @@ const $turn = document.querySelector('.turn');
 connection.onmessage = (event) => {
   const message = JSON.parse(event.data);
 
-  document.querySelector('.connection-count').innerHTML = message.connection_count;
+  document.querySelector('.connection-count').innerHTML = `${message.connection_count} people connected`;
   
   if (message.reset) {
     gameOver = false;
@@ -363,14 +363,6 @@ function drawGame() {
   drawBoard(3);
 }
 
-function drawUI() {
-  // TODO:
-  //       - claim buttons allow players to claim / release a color
-  //       - display claim status
-  //       - allow game to be forfeited
-  //       - when game is over allow game to be reset
-}
-
 function draw() {
   selectionCanvas.reset();
   
@@ -386,15 +378,11 @@ function draw() {
   rotateX(TAU / 4);
   selectionCanvas.rotateX(TAU / 4);
   drawGame();
-  
-  drawUI();
 }
 
 function handlePieceClick(x, y, z) {
-  console.log(x,y,z);
+  //console.log(x,y,z);
 
-  // TODO: Instead of rotating through colors this should set the color to
-  //       the player's color if not already set and then push state to the server
   if (gamestate[x][y][z] === 0) {
     connection.send(JSON.stringify({
       action: 'play',
@@ -422,5 +410,8 @@ function mousePressed() {
   return false
 }
 
-// TODO: recieve web-socket messages from a server
-//       that keeps track of state
+setTimeout(function() {
+  connection.send(JSON.stringify({
+    action: 'ping'
+  }));
+}, 2500);
