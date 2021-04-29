@@ -43,19 +43,7 @@ connection.onmessage = (event) => {
     victoryResult = null;
   }
   
-  if (gameOver) {
-    switch (victoryResult[0]) {
-      case 1:
-        $turn.innerHTML = 'red won';
-        break;
-      case 2:
-        $turn.innerHTML = 'green won';
-        break;
-      default:
-        throw 'winner should be 1 or 2'
-    }
-    return;
-  }
+  if (gameOver) return;
 
   gamestate = message.gamestate;
 
@@ -93,6 +81,16 @@ connection.onmessage = (event) => {
   if (victory) {
     gameOver = true;
     victoryResult = victory;
+    switch (victoryResult[0]) {
+      case 1:
+        $turn.innerHTML = 'red won';
+        break;
+      case 2:
+        $turn.innerHTML = 'green won';
+        break;
+      default:
+        throw 'winner should be 1 or 2'
+    }
   }
 };
 
