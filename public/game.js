@@ -7,6 +7,11 @@
    ortho, push, pop, cylinder, createGraphics, mouseX, mouseY,
    pixelDensity, pointLight, ambientMaterial, ambientLight */
 
+// TODO:
+//  - verify whether ping is helping
+//  - make a reload button for connection closed
+//  - better debugging for connection count
+
 const TAU = 2 * Math.PI;
 let cameraAngle = TAU / 12;
 let minAspect, boardSide, verticalSpacing,
