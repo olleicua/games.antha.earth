@@ -38,6 +38,7 @@ module.exports = (app) => {
     updateClient(client);
 
     client.on('message', (data) => {
+      let x, y, z;
       
       const message = JSON.parse(data);
       switch (message.action) {
@@ -52,23 +53,40 @@ module.exports = (app) => {
               if (!!greenPlayer) return;
               greenPlayer = client;
               break;
+            default:
+              return;
           }
           break;
         case 'play':
+          switch (turn) {
+            case 1:
+              if (redPlayer.id !== client.id) return;
+              [x, y, z] = message.position;
+              if (gamestate[x][y][z] !== 0) return;
+              gamestate[x][y][z] = 1;
+              turn = 2;
+              break;
+            case 2:
+              if (greenPlayer.id !== client.id) return;
+              [x, y, z] = message.position;
+              if (gamestate[x][y][z] !== 0) return;
+              gamestate[x][y][z] = 2;
+              turn = 1;
+              break;
+            default:
+              throw 'turn must be 1 or 2';
+          }
           break;
         case 'reset':
+          reset();
           break;
         default:
           return;
       }
       
-      
-      
-      messages.push(message);
-
       clients.forEach((target) => {
         if (target.readyState === WebSocket.OPEN) {
-          target.send(JSON.stringify([message]));
+          updateClient(target);
         }
       });
     });
