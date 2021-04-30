@@ -1,8 +1,3 @@
-// TODO:
-//  - verify whether ping is helping
-//  - make a reload button for connection closed
-//  - better debugging for connection count
-
 let gamestate = [];
 let gameOver = false;
 let victoryResult = null;
