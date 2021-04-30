@@ -11,11 +11,6 @@
 // DEFINED in remote.js OR in_person.js
 /* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
 
-// TODO:
-//  - verify whether ping is helping
-//  - make a reload button for connection closed
-//  - better debugging for connection count
-
 const TAU = 2 * Math.PI;
 let cameraAngle = TAU / 12;
 let minAspect, boardSide, verticalSpacing,
@@ -27,101 +22,6 @@ let selectionCanvas, selectionGL;
 gamestate = [];
 gameOver = false;
 victoryResult = null;
-
-// const connection = new WebSocket("ws://3d-connect-4.glitch.me:80/game");
-// const $connectionStatus = document.querySelector('.connection-status');
-// connection.onopen = (event) => {
-//   $connectionStatus.innerHTML = 'connected';
-// };
-
-// connection.onclose = (event) => {
-//   $connectionStatus.innerHTML = 'connection closed';
-// };
-
-// connection.onerror = (event) => {
-//   $connectionStatus.innerHTML = 'something went wrong';
-// };
-
-// const $turn = document.querySelector('.turn');
-
-// connection.onmessage = (event) => {
-//   const message = JSON.parse(event.data);
-
-//   document.querySelector('.connection-count').innerHTML = `${message.connection_count} people connected`;
-  
-//   if (message.reset) {
-//     gameOver = false;
-//     victoryResult = null;
-//   }
-  
-//   if (gameOver) return;
-
-//   gamestate = message.gamestate;
-
-//   switch (message.turn) {
-//     case 1:
-//       $turn.innerHTML = 'it\'s red\'s turn';
-//       break;
-//     case 2:
-//       $turn.innerHTML = 'it\'s green\'s turn';
-//       break;
-//     default:
-//       throw 'turn should be 1 or 2'
-//   }
-
-//   document.querySelectorAll('.taken, .you, .claim-button').forEach(($el) => {
-//     $el.style.display = 'none';
-//   });
-//   ['red', 'green'].forEach((player) => {
-//     switch (message[player]) {
-//       case 'available':
-//         document.querySelector(`.${player}-player .claim-button`).style.display = 'inline-block'
-//         break;
-//       case 'someone':
-//         document.querySelector(`.${player}-player .taken`).style.display = 'inline-block'
-//         break;
-//       case 'you':
-//         document.querySelector(`.${player}-player .you`).style.display = 'inline-block'
-//         break;
-//       default:
-//         throw 'turn should be 1 or 2'
-//     }
-//   });
-  
-//   let victory = checkVictory();
-//   if (victory) {
-//     gameOver = true;
-//     victoryResult = victory;
-//     switch (victoryResult[0]) {
-//       case 1:
-//         $turn.innerHTML = 'red won';
-//         break;
-//       case 2:
-//         $turn.innerHTML = 'green won';
-//         break;
-//       default:
-//         throw 'winner should be 1 or 2'
-//     }
-//   }
-// };
-
-// document.querySelector('.red-player .claim-button').addEventListener('click', () => {
-//   connection.send(JSON.stringify({
-//     action: 'claim',
-//     color: 'red'
-//   }));
-// });
-// document.querySelector('.green-player .claim-button').addEventListener('click', () => {
-//   connection.send(JSON.stringify({
-//     action: 'claim',
-//     color: 'green'
-//   }));
-// });
-// document.querySelector('.reset-button').addEventListener('click', () => {
-//   connection.send(JSON.stringify({
-//     action: 'reset'
-//   }));
-// });
 
 let v;
 
@@ -244,9 +144,6 @@ function setup() {
   selectionGL = selectionCanvas.elt.getContext('webgl');
   selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
 
-	// selectionCanvas.show();
-	// selectionCanvas.style("display", "inline");
-
   boardSide = (Math.min(width, height) / 2);
   verticalSpacing = boardSide / 2;
   pieceHeight = verticalSpacing / 9;
@@ -262,10 +159,6 @@ function setup() {
       }
     }
   }
-  
-  // const clockwiseButton = document.querySelector('.clockwise-button');
-  // const counterClockwiseButton = document.querySelector('.counter-clockwise-button');
-  // clockwiseButton.addEventListener('mousedown');
 }
 
 function placeCamera() {
@@ -341,7 +234,6 @@ function drawVictory() {
   const startPosition = p5.Vector.mult(start, p5.Vector.div(distortion, 3));
   // translate to the center of the cylinder
   translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
-  // TODO: rotate
   if (delta.x !== 0) {
     rotateZ(- Math.atan(delta.x / delta.y));
   }
@@ -389,17 +281,6 @@ function draw() {
   drawGame();
 }
 
-// function handlePieceClick(x, y, z) {
-//   //console.log(x,y,z);
-
-//   if (gamestate[x][y][z] === 0) {
-//     connection.send(JSON.stringify({
-//       action: 'play',
-//       position: [x, y, z]
-//     }));
-//   }
-// }
-
 function touchStarted() {}
 
 function mousePressed() {
@@ -408,19 +289,10 @@ function mousePressed() {
                          selectionGL.RGBA,
                          selectionGL.UNSIGNED_BYTE,
                          pixel);
-  //console.log(1, mouseX, mouseY, pixel);
   
   if (pixel[3] === 255 && pixel[0] < 4 && pixel[1] < 4 && pixel[2] < 4) {
-    // piece clicked
     handlePieceClick(pixel[0], pixel[1], pixel[2]);
-    // handle UI clicks
   }
   
   return false
 }
-
-// setTimeout(function() {
-//   connection.send(JSON.stringify({
-//     action: 'ping'
-//   }));
-// }, 2500);
