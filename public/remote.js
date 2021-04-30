@@ -27,7 +27,7 @@ let checkVictory;
 connection.onmessage = (event) => {
   const message = JSON.parse(event.data);
 
-  document.querySelector('.connection-count').innerHTML = `${message.connection_count} people connected`;
+  document.querySelector('.connection-count').innerHTML = `people: ${message.connection_count}`;
   
   if (message.reset) {
     gameOver = false;
@@ -114,8 +114,9 @@ function handlePieceClick(x, y, z) {
   }
 }
 
-setTimeout(function() {
-  connection.send(JSON.stringify({
-    action: 'ping'
-  }));
-}, 2500);
+function ping() {
+  console.log(123);
+  connection.send(JSON.stringify({ action: 'ping' }));
+  setTimeout(ping, 2500);
+}
+ping();
