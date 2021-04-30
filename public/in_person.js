@@ -5,8 +5,7 @@
    background, WEBGL, box, keyCode, LEFT_ARROW, RIGHT_ARROW,
    rotateX, rotateZ, keyIsPressed, plane, translate, camera,
    ortho, push, pop, cylinder, createGraphics, mouseX, mouseY,
-   pixelDensity, pointLight, ambientMaterial, ambientLight,
-   handlePieceClick */
+   pixelDensity, pointLight, ambientMaterial, ambientLight */
 
 // TODO:
 //  - verify whether ping is helping
@@ -25,100 +24,100 @@ let gamestate = [];
 let gameOver = false;
 let victoryResult = null;
 
-// const connection = new WebSocket("ws://3d-connect-4.glitch.me:80/game");
-// const $connectionStatus = document.querySelector('.connection-status');
-// connection.onopen = (event) => {
-//   $connectionStatus.innerHTML = 'connected';
-// };
+const connection = new WebSocket("ws://3d-connect-4.glitch.me:80/game");
+const $connectionStatus = document.querySelector('.connection-status');
+connection.onopen = (event) => {
+  $connectionStatus.innerHTML = 'connected';
+};
 
-// connection.onclose = (event) => {
-//   $connectionStatus.innerHTML = 'connection closed';
-// };
+connection.onclose = (event) => {
+  $connectionStatus.innerHTML = 'connection closed';
+};
 
-// connection.onerror = (event) => {
-//   $connectionStatus.innerHTML = 'something went wrong';
-// };
+connection.onerror = (event) => {
+  $connectionStatus.innerHTML = 'something went wrong';
+};
 
-// const $turn = document.querySelector('.turn');
+const $turn = document.querySelector('.turn');
 
-// connection.onmessage = (event) => {
-//   const message = JSON.parse(event.data);
+connection.onmessage = (event) => {
+  const message = JSON.parse(event.data);
 
-//   document.querySelector('.connection-count').innerHTML = `${message.connection_count} people connected`;
+  document.querySelector('.connection-count').innerHTML = `${message.connection_count} people connected`;
   
-//   if (message.reset) {
-//     gameOver = false;
-//     victoryResult = null;
-//   }
+  if (message.reset) {
+    gameOver = false;
+    victoryResult = null;
+  }
   
-//   if (gameOver) return;
+  if (gameOver) return;
 
-//   gamestate = message.gamestate;
+  gamestate = message.gamestate;
 
-//   switch (message.turn) {
-//     case 1:
-//       $turn.innerHTML = 'it\'s red\'s turn';
-//       break;
-//     case 2:
-//       $turn.innerHTML = 'it\'s green\'s turn';
-//       break;
-//     default:
-//       throw 'turn should be 1 or 2'
-//   }
+  switch (message.turn) {
+    case 1:
+      $turn.innerHTML = 'it\'s red\'s turn';
+      break;
+    case 2:
+      $turn.innerHTML = 'it\'s green\'s turn';
+      break;
+    default:
+      throw 'turn should be 1 or 2'
+  }
 
-//   document.querySelectorAll('.taken, .you, .claim-button').forEach(($el) => {
-//     $el.style.display = 'none';
-//   });
-//   ['red', 'green'].forEach((player) => {
-//     switch (message[player]) {
-//       case 'available':
-//         document.querySelector(`.${player}-player .claim-button`).style.display = 'inline-block'
-//         break;
-//       case 'someone':
-//         document.querySelector(`.${player}-player .taken`).style.display = 'inline-block'
-//         break;
-//       case 'you':
-//         document.querySelector(`.${player}-player .you`).style.display = 'inline-block'
-//         break;
-//       default:
-//         throw 'turn should be 1 or 2'
-//     }
-//   });
+  document.querySelectorAll('.taken, .you, .claim-button').forEach(($el) => {
+    $el.style.display = 'none';
+  });
+  ['red', 'green'].forEach((player) => {
+    switch (message[player]) {
+      case 'available':
+        document.querySelector(`.${player}-player .claim-button`).style.display = 'inline-block'
+        break;
+      case 'someone':
+        document.querySelector(`.${player}-player .taken`).style.display = 'inline-block'
+        break;
+      case 'you':
+        document.querySelector(`.${player}-player .you`).style.display = 'inline-block'
+        break;
+      default:
+        throw 'turn should be 1 or 2'
+    }
+  });
   
-//   let victory = checkVictory();
-//   if (victory) {
-//     gameOver = true;
-//     victoryResult = victory;
-//     switch (victoryResult[0]) {
-//       case 1:
-//         $turn.innerHTML = 'red won';
-//         break;
-//       case 2:
-//         $turn.innerHTML = 'green won';
-//         break;
-//       default:
-//         throw 'winner should be 1 or 2'
-//     }
-//   }
-// };
+  let victory = checkVictory();
+  if (victory) {
+    gameOver = true;
+    victoryResult = victory;
+    switch (victoryResult[0]) {
+      case 1:
+        $turn.innerHTML = 'red won';
+        break;
+      case 2:
+        $turn.innerHTML = 'green won';
+        break;
+      default:
+        throw 'winner should be 1 or 2'
+    }
+  }
+};
 
-// document.querySelector('.red-player .claim-button').addEventListener('click', () => {
-//   connection.send(JSON.stringify({
-//     action: 'claim',
-//     color: 'red'
-//   }));
-// });
-// document.querySelector('.green-player .claim-button').addEventListener('click', () => {
-//   connection.send(JSON.stringify({
-//     action: 'claim',
-//     color: 'green'
-//   }));
-// });
-// document.querySelector('.reset-button').addEventListener('click', () => {
-//   connection.send(JSON.stringify({
-//     action: 'reset'
-//   }));
-// });
+document.querySelector('.red-player .claim-button').addEventListener('click', () => {
+  connection.send(JSON.stringify({
+    action: 'claim',
+    color: 'red'
+  }));
+});
+document.querySelector('.green-player .claim-button').addEventListener('click', () => {
+  connection.send(JSON.stringify({
+    action: 'claim',
+    color: 'green'
+  }));
+});
+document.querySelector('.reset-button').addEventListener('click', () => {
+  connection.send(JSON.stringify({
+    action: 'reset'
+  }));
+});
 
 let v;
 
@@ -386,16 +385,16 @@ function draw() {
   drawGame();
 }
 
-// function handlePieceClick(x, y, z) {
-//   //console.log(x,y,z);
+function handlePieceClick(x, y, z) {
+  //console.log(x,y,z);
 
-//   if (gamestate[x][y][z] === 0) {
-//     connection.send(JSON.stringify({
-//       action: 'play',
-//       position: [x, y, z]
-//     }));
-//   }
-// }
+  if (gamestate[x][y][z] === 0) {
+    connection.send(JSON.stringify({
+      action: 'play',
+      position: [x, y, z]
+    }));
+  }
+}
 
 function touchStarted() {}
 
@@ -416,8 +415,8 @@ function mousePressed() {
   return false
 }
 
-// setTimeout(function() {
-//   connection.send(JSON.stringify({
-//     action: 'ping'
-//   }));
-// }, 2500);
+setTimeout(function() {
+  connection.send(JSON.stringify({
+    action: 'ping'
+  }));
+}, 2500);
