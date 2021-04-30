@@ -42,9 +42,8 @@ body {
 
 .connection-info div {
   display: inline;
-  margin-right: 1em;
-  padding-right: 1em;
-  border-right: 1px solid #555;
+  padding-left: 5px;
+  border-left: 2px dotted #555;
 }
 
 .controls button {
