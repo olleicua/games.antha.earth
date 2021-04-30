@@ -6,12 +6,7 @@ let turn = 1;
 const $turn = document.querySelector('.turn');
 let checkVictory;
 
-function handlePieceClick(x, y, z) {
-  if (gamestate[x][y][z] !== 0 || gameOver) return;
-
-  gamestate[x][y][z] = turn;
-  turn = {'1': 2, '2': 1}[turn];
-
+function displayTurn() {
   switch (turn) {
     case 1:
       $turn.innerHTML = 'it\'s red\'s turn';
@@ -22,6 +17,15 @@ function handlePieceClick(x, y, z) {
     default:
       throw 'turn should be 1 or 2'
   }
+}
+
+function handlePieceClick(x, y, z) {
+  if (gamestate[x][y][z] !== 0 || gameOver) return;
+
+  gamestate[x][y][z] = turn;
+  turn = {'1': 2, '2': 1}[turn];
+
+  displayTurn();
   
   let victory = checkVictory();
   if (victory) {
@@ -53,4 +57,5 @@ document.querySelector('.reset-button').addEventListener('click', () => {
       }
     }
   }
+  displayTurn();
 });

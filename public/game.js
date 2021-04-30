@@ -234,9 +234,11 @@ function drawVictory() {
   const startPosition = p5.Vector.mult(start, p5.Vector.div(distortion, 3));
   // translate to the center of the cylinder
   translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
+  // rotate around the vertical axis
   if (delta.x !== 0) {
     rotateZ(- Math.atan(delta.x / delta.y));
   }
+  // the rotation around the Z axis changed where the X axis is 
   if (delta.z !== 0) {
     let xRot = Math.atan((delta.z * 2) / Math.sqrt((delta.x * delta.x) + (delta.y * delta.y)));
     if (delta.x * delta.y === -1) rotateX(-xRot);
