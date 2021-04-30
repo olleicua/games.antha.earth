@@ -193,11 +193,14 @@ function placeCamera() {
     }
   }
   
+  // place a point light that follows the camera a quarter turn counter-clockwise
+  // of the camera but further away and higher up
   pointLight(255, 255, 255,
              4 * cameraFromZAxis * Math.cos(cameraAngle - (TAU / 4)),
              -8 * cameraHeight,
              4 * cameraFromZAxis * Math.sin(cameraAngle - (TAU / 4)));
   
+  // place the camera in both canvases
   camera(cameraFromZAxis * Math.cos(cameraAngle),
          -cameraHeight,
          cameraFromZAxis * Math.sin(cameraAngle),
@@ -215,26 +218,31 @@ function drawBoard(z) {
   plane(boardSide, boardSide);
   push();
   selectionCanvas.push();
+  // translate to the position the piece with X,Y position 0,0
   translate(- 3 * boardSide / 8, - 3 * boardSide / 8, pieceHeight / 2);
   selectionCanvas.translate(- 3 * boardSide / 8, - 3 * boardSide / 8, pieceHeight / 2);
   for (let x = 0; x < 4; x ++) {
     for (let y = 0; y < 4; y ++) {
       push();
       selectionCanvas.push();
+      // translate to the piece with X,Y position x,y
       translate(x * boardSide / 4, y * boardSide / 4, 0);
       selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
       // the cylinder will be drawn by default facing the Y axis sp we rotate it around the X axis
       rotateX(TAU / 4);
       selectionCanvas.rotateX(TAU / 4);
+      // color the piece based on the gamestate
       ambientMaterial(playerColors[gV(v(x, y, z))])
+      // color the piece in the selection canvas with r,g,b correspond to x,y,z
       selectionCanvas.fill(x, y, z);
+
       cylinder(boardSide / 12, pieceHeight);
       selectionCanvas.cylinder(boardSide / 12, pieceHeight);
-      pop();
+      pop(); // undo rotation and return to X,Y position 0,0 
       selectionCanvas.pop();
     }
   }
-  pop();
+  pop(); // return to position and rotation from before this function call
   selectionCanvas.pop();
 }
 
@@ -274,8 +282,9 @@ function drawVictory() {
     if (delta.x * delta.y === -1) rotateX(-xRot);
     else rotateX(xRot);
   }
+
   cylinder(boardSide / 45, cylinderVector.mag());
-  pop();
+  pop(); // return to position and rotation from before this function call
 }
 
 function drawGame() {
