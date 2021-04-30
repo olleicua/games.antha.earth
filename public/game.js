@@ -234,13 +234,19 @@ function drawVictory() {
   const startPosition = p5.Vector.mult(start, p5.Vector.div(distortion, 3));
   // translate to the center of the cylinder
   translate(p5.Vector.add(startPosition, p5.Vector.mult(cylinderVector, 0.5)));
-  // rotate around the vertical axis
+  // the cylinder will be drawn by default along the Y axis
+  // we are rotating so that it is drawn along the direction of delta
+  // first we rotate around the vertical axis
   if (delta.x !== 0) {
     rotateZ(- Math.atan(delta.x / delta.y));
   }
-  // the rotation around the Z axis changed where the X axis is 
+  // the rotation around the Z axis above changes where the X axis is for the purpose of rotation and
+  // translation until the pop() calll below so the adjacent side of the relevant right triangle
+  // for our arctangent function is actually the vector sum of the x and y components of delta
   if (delta.z !== 0) {
     let xRot = Math.atan((delta.z * 2) / Math.sqrt((delta.x * delta.x) + (delta.y * delta.y)));
+    // i have no idea why the rotation needs to be inverted in this case but i assume it has something
+    // to do with q
     if (delta.x * delta.y === -1) rotateX(-xRot);
     else rotateX(xRot);
   }
