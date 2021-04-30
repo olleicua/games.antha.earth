@@ -141,7 +141,10 @@ function setup() {
   playerColors[0] = color(159, 159, 255); // default
   playerColors[1] = color(255, 31, 31); // player 1
   playerColors[2] = color(31, 255, 31); // player 2
-  
+
+  // the game canvas is a square
+  // for mobile we make it as big as possible
+  // for larger screens we leave 200 pixels to the right for the ui
   if (windowWidth <= 600) {
     minAspect = Math.min(windowWidth - 5, windowHeight - 5);    
   } else {
@@ -151,18 +154,24 @@ function setup() {
   canvas.parent('game');
   pixelDensity(1);
   ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
-  
+
+  // the selection canvas won't be displayed
+  // we render clickable 3D shapes (in this case just the pieces) in parallel to the the main canvas
+  // and we give each a unique color; when the user clicks on the canvas we can identify the clicked
+  // shape by looking at the color of the corresponding pixel on the selection canvas
   selectionCanvas = createGraphics(minAspect, minAspect, WEBGL);
   selectionCanvas.pixelDensity(1);
   selectionGL = selectionCanvas.elt.getContext('webgl');
   selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
 
-  boardSide = (Math.min(width, height) / 2);
-  verticalSpacing = boardSide / 2;
-  pieceHeight = verticalSpacing / 9;
-  cameraHeight = boardSide / 2;
-  cameraFromZAxis = boardSide;
+  // we calculate some distances based on the size of the canvas that we will use to draw things 
+  boardSide = (Math.min(width, height) / 2); // distance along the side of one of the four boards
+  verticalSpacing = boardSide / 2; // vertical distance between boards
+  pieceHeight = verticalSpacing / 9; // height of each piece
+  cameraHeight = boardSide / 2; // place the camera above the scene
+  cameraFromZAxis = boardSide; // place the camera laterally away from the center
   
+  // set the gamestate to a 4x4x4 3D array of all 0s
   for (let x = 0; x < 4; x ++) {
     gamestate.push([]);
     for (let y = 0; y < 4; y ++) {
@@ -175,6 +184,7 @@ function setup() {
 }
 
 function placeCamera() {
+  // update the cameraAngle if the user is actively rotating it
   if (keyIsPressed || rotateButtonPressed) {
     if (keyCode === LEFT_ARROW || rotateButtonPressed === 'CW') {
       cameraAngle -= 0.03;
