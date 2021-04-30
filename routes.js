@@ -1,5 +1,6 @@
 const routes = [
   ['/', '/views/index.html'],
+  ['/in-person', '/views/in_person.html'],
   ['/chat', '/views/chat.html'],
 ];
 
