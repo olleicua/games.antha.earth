@@ -25,11 +25,19 @@ const reset = () => {
 reset();
 
 const checkClients = () => {
-  
+  let change = false;
+  clients.forEach((target) => {
+    if (target.lastPing < Date.now() - 10000 || target.readyState !== WebSocket.OPEN) {
+      target.connected = false;
+      change = true;
+      if (redPlayer === target) redPlayer = null;
+      if (greenPlayer === target) greenPlayer = null;
+    }
+  });
+  return change;
 };
 
 const broadcast = () => {
-  console.log(clients.map(t => [t.id, t.connected, t.lastPing]));
   clients.forEach((target) => {
     if (target.lastPing < Date.now() - 10000 || target.readyState !== WebSocket.OPEN) {
       target.connected = false;
@@ -112,6 +120,7 @@ module.exports = (app) => {
           break;
         case 'ping':
           client.lastPing = Date.now();
+          if (checkClients()) updateClient(client);
           return;
         default:
           return;
