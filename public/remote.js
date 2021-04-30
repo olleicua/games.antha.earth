@@ -39,6 +39,7 @@ connection.onerror = (event) => {
 };
 
 const $turn = document.querySelector('.turn');
+let checkVictory;
 
 connection.onmessage = (event) => {
   const message = JSON.parse(event.data);
@@ -119,7 +120,7 @@ document.querySelector('.reset-button').addEventListener('click', () => {
   }));
 });
 
-let v;
+// let v;
 
 // FIXME: victory checking could happen on the server maybe.. but vector libraries.. idk
 

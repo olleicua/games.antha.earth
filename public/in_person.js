@@ -12,33 +12,45 @@
 //  - make a reload button for connection closed
 //  - better debugging for connection count
 
-const TAU = 2 * Math.PI;
-let cameraAngle = TAU / 12;
-let minAspect, boardSide, verticalSpacing,
-    cameraHeight, cameraFromZAxis,
-    pieceHeight;
+// const TAU = 2 * Math.PI;
+// let cameraAngle = TAU / 12;
+// let minAspect, boardSide, verticalSpacing,
+//     cameraHeight, cameraFromZAxis,
+//     pieceHeight;
 
-let selectionCanvas, selectionGL;
+// let selectionCanvas, selectionGL;
 
 let gamestate = [];
 let gameOver = false;
 let victoryResult = null;
 
-const connection = new WebSocket("ws://3d-connect-4.glitch.me:80/game");
-const $connectionStatus = document.querySelector('.connection-status');
-connection.onopen = (event) => {
-  $connectionStatus.innerHTML = 'connected';
-};
-
-connection.onclose = (event) => {
-  $connectionStatus.innerHTML = 'connection closed';
-};
-
-connection.onerror = (event) => {
-  $connectionStatus.innerHTML = 'something went wrong';
-};
-
+let turn = 1;
 const $turn = document.querySelector('.turn');
+
+function handlePieceClick(x, y, z) {
+  //console.log(x,y,z);
+
+  if (gamestate[x][y][z] === 0 && ! gameOver) {
+
+    gamestate[x][y][z] = turn;
+    turn = {'1': 2, '2': 1}[turn];
+  let victory = checkVictory();
+  if (victory) {
+    gameOver = true;
+    victoryResult = victory;
+    switch (victoryResult[0]) {
+      case 1:
+        $turn.innerHTML = 'red won';
+        break;
+      case 2:
+        $turn.innerHTML = 'green won';
+        break;
+      default:
+        throw 'winner should be 1 or 2'
+    }
+  }
+  }
+}
 
 connection.onmessage = (event) => {
   const message = JSON.parse(event.data);
@@ -396,27 +408,27 @@ function handlePieceClick(x, y, z) {
   }
 }
 
-function touchStarted() {}
+// function touchStarted() {}
 
-function mousePressed() {
-  let pixel = new Uint8Array(4);
-  selectionGL.readPixels(mouseX, height - mouseY, 1, 1,
-                         selectionGL.RGBA,
-                         selectionGL.UNSIGNED_BYTE,
-                         pixel);
-  //console.log(1, mouseX, mouseY, pixel);
+// function mousePressed() {
+//   let pixel = new Uint8Array(4);
+//   selectionGL.readPixels(mouseX, height - mouseY, 1, 1,
+//                          selectionGL.RGBA,
+//                          selectionGL.UNSIGNED_BYTE,
+//                          pixel);
+//   //console.log(1, mouseX, mouseY, pixel);
   
-  if (pixel[3] === 255 && pixel[0] < 4 && pixel[1] < 4 && pixel[2] < 4) {
-    // piece clicked
-    handlePieceClick(pixel[0], pixel[1], pixel[2]);
-    // handle UI clicks
-  }
+//   if (pixel[3] === 255 && pixel[0] < 4 && pixel[1] < 4 && pixel[2] < 4) {
+//     // piece clicked
+//     handlePieceClick(pixel[0], pixel[1], pixel[2]);
+//     // handle UI clicks
+//   }
   
-  return false
-}
+//   return false
+// }
 
-setTimeout(function() {
-  connection.send(JSON.stringify({
-    action: 'ping'
-  }));
-}, 2500);
+// setTimeout(function() {
+//   connection.send(JSON.stringify({
+//     action: 'ping'
+//   }));
+// }, 2500);

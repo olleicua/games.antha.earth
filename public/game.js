@@ -1,3 +1,4 @@
+// DEFINED in p5.js
 /* global createCanvas, color, windowWidth, windowHeight,
    width, height, ellipse, text, fill, noStroke, millis,
    createVector, lerpColor, map, rect, strokeWeight, stroke,
@@ -5,8 +6,10 @@
    background, WEBGL, box, keyCode, LEFT_ARROW, RIGHT_ARROW,
    rotateX, rotateZ, keyIsPressed, plane, translate, camera,
    ortho, push, pop, cylinder, createGraphics, mouseX, mouseY,
-   pixelDensity, pointLight, ambientMaterial, ambientLight,
-   handlePieceClick */
+   pixelDensity, pointLight, ambientMaterial, ambientLight */
+
+// DEFINED in remote.js OR in_person.js
+/* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
 
 // TODO:
 //  - verify whether ping is helping
@@ -21,9 +24,9 @@ let minAspect, boardSide, verticalSpacing,
 
 let selectionCanvas, selectionGL;
 
-let gamestate = [];
-let gameOver = false;
-let victoryResult = null;
+gamestate = [];
+gameOver = false;
+victoryResult = null;
 
 // const connection = new WebSocket("ws://3d-connect-4.glitch.me:80/game");
 // const $connectionStatus = document.querySelector('.connection-status');
@@ -140,7 +143,7 @@ function checkLine(start, delta) {
   return [first, start, delta];
 }
 
-function checkVictory() {
+checkVictory = () => {
   let x, y, z;
   let result;
   for (x = 0; x < 4; x++) {
