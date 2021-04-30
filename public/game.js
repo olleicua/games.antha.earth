@@ -305,6 +305,7 @@ function drawGame() {
   drawBoard(3);
 }
 
+// p5.js calls this function to update the canvas once per frame
 function draw() {
   selectionCanvas.reset();
   
@@ -317,13 +318,19 @@ function draw() {
   noStroke();
   selectionCanvas.noStroke();
   
+  // by default the Z axis is depth and the Y axis is vertical (to match 2D coordinates)
+  // this rotation makes the Z axis vertical and the Y axis depth
+  // (because of the way our camera moves we can think of X and Y as mostly interchangeable tho)
   rotateX(TAU / 4);
   selectionCanvas.rotateX(TAU / 4);
+
   drawGame();
 }
 
+// this prevents p5.js from treating mobile touch events as two clicks
 function touchStarted() {}
 
+// p5.js calls this when a click happens on the canvas
 function mousePressed() {
   let pixel = new Uint8Array(4);
   selectionGL.readPixels(mouseX, height - mouseY, 1, 1,
@@ -332,6 +339,7 @@ function mousePressed() {
                          pixel);
   
   if (pixel[3] === 255 && pixel[0] < 4 && pixel[1] < 4 && pixel[2] < 4) {
+    // click behaviour differs between remote and in-person versions so it is defined in the respective files
     handlePieceClick(pixel[0], pixel[1], pixel[2]);
   }
   
