@@ -12,6 +12,7 @@
 /* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
 
 const TAU = 2 * Math.PI;
+
 let cameraAngle = TAU / 12;
 let minAspect, boardSide, verticalSpacing,
     cameraHeight, cameraFromZAxis,
@@ -23,14 +24,20 @@ gamestate = [];
 gameOver = false;
 victoryResult = null;
 
+// this will be set to createVector inside of the setup (p5 functions aren't defined yet here)
 let v;
 
 // FIXME: victory checking could happen on the server maybe.. but vector libraries.. idk
 
+// get the piece value for a vector
 function gV(vector) {
   return gamestate[vector.x][vector.y][vector.z];
 }
 
+// looks at the four pieces along the direction of delta starting with start
+// returns false if they are not all the same or they are all 0
+// otherwise returns an array with three values: the value that all the cells are
+// and the two arguments that were passed in
 function checkLine(start, delta) {
   let i;
   let position = start.copy();
@@ -43,6 +50,9 @@ function checkLine(start, delta) {
   return [first, start, delta];
 }
 
+// calls checkLine for every possible victory line and returns the first non-falsey result
+// this modifies a global variable because it needs to be used in in_person.js or remote.js
+// and i didn't feel like reorganizing things (probably the "correct" way would involve objects)
 checkVictory = () => {
   let x, y, z;
   let result;
@@ -98,6 +108,8 @@ checkVictory = () => {
   if (result) return result;  
 }
 
+// setup buttons to rotate the board
+// this can also be done on a desktop with the left and right arrow keys
 let rotateButtonPressed = null;
 const $cwb = document.querySelector('.clockwise-button');
 const $ccwb = document.querySelector('.counter-clockwise-button');
@@ -122,6 +134,7 @@ $ccwb.addEventListener('touchend', resetRotateButton);
 
 const playerColors = [];
 
+// p5.js calls this for us
 function setup() {
   v = createVector;
   
@@ -200,6 +213,7 @@ function drawBoard(z) {
       selectionCanvas.push();
       translate(x * boardSide / 4, y * boardSide / 4, 0);
       selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
+      // the cylinder will be drawn by default facing the Y axis sp we rotate it around the X axis
       rotateX(TAU / 4);
       selectionCanvas.rotateX(TAU / 4);
       ambientMaterial(playerColors[gV(v(x, y, z))])
@@ -245,8 +259,8 @@ function drawVictory() {
   // for our arctangent function is actually the vector sum of the x and y components of delta
   if (delta.z !== 0) {
     let xRot = Math.atan((delta.z * 2) / Math.sqrt((delta.x * delta.x) + (delta.y * delta.y)));
-    // i have no idea why the rotation needs to be inverted in this case but i assume it has something
-    // to do with q
+    // i'm not sure why the rotation needs to be inverted in this case but i suspect it has something
+    // to do with quaternions
     if (delta.x * delta.y === -1) rotateX(-xRot);
     else rotateX(xRot);
   }
