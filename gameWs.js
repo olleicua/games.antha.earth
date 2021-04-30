@@ -24,9 +24,14 @@ const reset = () => {
 };
 reset();
 
+const checkClients = () => {
+  
+};
+
 const broadcast = () => {
+  console.log(clients.map(t => [t.id, t.connected, t.lastPing]));
   clients.forEach((target) => {
-    if (target.lastPing < Date.now - 10000 || target.readyState !== WebSocket.OPEN) {
+    if (target.lastPing < Date.now() - 10000 || target.readyState !== WebSocket.OPEN) {
       target.connected = false;
     }
   });
@@ -53,7 +58,7 @@ module.exports = (app) => {
   app.ws('/game', (client, request) => {
     client.id = clients.length;
     client.connected = true;
-    client.lastPing = Date.now;
+    client.lastPing = Date.now();
     clients.push(client);
 
     broadcast();
@@ -64,7 +69,7 @@ module.exports = (app) => {
       const message = JSON.parse(data);
       switch (message.action) {
         case 'claim':
-          client.lastPing = Date.now;
+          client.lastPing = Date.now();
           if ((redPlayer && redPlayer.id === client.id) || (greenPlayer && greenPlayer.id === client.id)) return;
           switch (message.color) {
             case 'red':
@@ -80,7 +85,7 @@ module.exports = (app) => {
           }
           break;
         case 'play':
-          client.lastPing = Date.now;
+          client.lastPing = Date.now();
           switch (turn) {
             case 1:
               if (redPlayer.id !== client.id) return;
@@ -101,22 +106,18 @@ module.exports = (app) => {
           }
           break;
         case 'reset':
-          client.lastPing = Date.now;
+          client.lastPing = Date.now();
           resetting = true;
           reset();
           break;
         case 'ping':
-          client.lastPing = Date.now;
+          client.lastPing = Date.now();
           return;
         default:
           return;
       }
       
-      clients.forEach((target) => {
-        if (target.readyState === WebSocket.OPEN) {
-          updateClient(target);
-        }
-      });
+      broadcast();
       
       resetting = false;
     });

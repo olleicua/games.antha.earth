@@ -115,8 +115,7 @@ function handlePieceClick(x, y, z) {
 }
 
 function ping() {
-  console.log(123);
   connection.send(JSON.stringify({ action: 'ping' }));
   setTimeout(ping, 2500);
 }
-ping();
+setTimeout(ping, 3000);
