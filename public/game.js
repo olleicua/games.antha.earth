@@ -328,7 +328,9 @@ function draw() {
 }
 
 // this prevents p5.js from treating mobile touch events as two clicks
-function touchStarted() {}
+function touchStarted() {
+  mousePressed();
+}
 
 // p5.js calls this when a click happens on the canvas
 function mousePressed() {
