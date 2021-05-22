@@ -140,10 +140,10 @@ function preload() {
   pawnModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
   knightModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKnight.obj');
   bishopModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FBishop.obj');
-  unicornModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%Unicorn.obj');
-  rookModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%Rook.obj');
-  queenModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%Queen.obj');
-  kingModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
+  unicornModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FUnicorn.obj');
+  rookModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FRook.obj');
+  queenModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2fQueen.obj');
+  kingModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKing.obj');
 }
 
 // p5.js calls this for us
@@ -165,7 +165,7 @@ function setup() {
   let canvas = createCanvas(minAspect, minAspect, WEBGL);
   canvas.parent('game');
   pixelDensity(1);
-  ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
+  ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height, - 2 * height, 2 * height);
 
   // the selection canvas won't be displayed
   // we render clickable 3D shapes (in this case just the pieces) in parallel to the the main canvas
@@ -249,7 +249,7 @@ function drawBoard(z) {
       selectionCanvas.fill(x, y, z);
 
       //cylinder(boardSide / 12, pieceHeight);
-      model(pawnModel);
+      model(queenModel);
       selectionCanvas.cylinder(boardSide / 12, pieceHeight);
       pop(); // undo rotation and return to X,Y position 0,0 
       selectionCanvas.pop();
@@ -316,6 +316,9 @@ function drawGame() {
   translate(0, 0, verticalSpacing);
   selectionCanvas.translate(0, 0, verticalSpacing)
   drawBoard(3);
+  translate(0, 0, verticalSpacing);
+  selectionCanvas.translate(0, 0, verticalSpacing)
+  drawBoard(4);
 }
 
 // p5.js calls this function to update the canvas once per frame
