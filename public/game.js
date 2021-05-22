@@ -134,10 +134,16 @@ $cwb.addEventListener('touchend', resetRotateButton);
 $ccwb.addEventListener('touchend', resetRotateButton);
 
 const playerColors = [];
-var pawnModel;
+let pawnModel, knightModel, bishopModel, unicornModel, rookModel, queenModel, kingModel;
 
 function preload() {
   pawnModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
+  knightModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKnight.obj');
+  bishopModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FBishop.obj');
+  unicornModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%Unicorn.obj');
+  rookModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%Rook.obj');
+  queenModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%Queen.obj');
+  kingModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
 }
 
 // p5.js calls this for us
