@@ -133,6 +133,11 @@ $cwb.addEventListener('touchend', resetRotateButton);
 $ccwb.addEventListener('touchend', resetRotateButton);
 
 const playerColors = [];
+let pawn
+
+function preload() {
+  pawnModel = loadModel('assets/octahedron.obj');
+}
 
 // p5.js calls this for us
 function setup() {
