@@ -6,7 +6,8 @@
    background, WEBGL, box, keyCode, LEFT_ARROW, RIGHT_ARROW,
    rotateX, rotateZ, keyIsPressed, plane, translate, camera,
    ortho, push, pop, cylinder, createGraphics, mouseX, mouseY,
-   pixelDensity, pointLight, ambientMaterial, ambientLight */
+   pixelDensity, pointLight, ambientMaterial, ambientLight,
+   loadModel, model */
 
 // DEFINED in remote.js OR in_person.js
 /* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
@@ -133,10 +134,10 @@ $cwb.addEventListener('touchend', resetRotateButton);
 $ccwb.addEventListener('touchend', resetRotateButton);
 
 const playerColors = [];
-let pawn
+var pawnModel;
 
 function preload() {
-  pawnModel = loadModel('assets/octahedron.obj');
+  pawnModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
 }
 
 // p5.js calls this for us
@@ -241,7 +242,8 @@ function drawBoard(z) {
       // color the piece in the selection canvas with r,g,b correspond to x,y,z
       selectionCanvas.fill(x, y, z);
 
-      cylinder(boardSide / 12, pieceHeight);
+      //cylinder(boardSide / 12, pieceHeight);
+      model(pawnModel);
       selectionCanvas.cylinder(boardSide / 12, pieceHeight);
       pop(); // undo rotation and return to X,Y position 0,0 
       selectionCanvas.pop();
