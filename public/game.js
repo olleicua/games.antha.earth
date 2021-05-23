@@ -153,16 +153,32 @@ function initGamestate() {
     for (let y = 0; y < 5; y ++) {
       gamestate[x].push([]);
       for (let z = 0; z < 5; z ++) {
-        gamestate[x][y].push(0);
+        gamestate[x][y].push([null, null]);
       }
     }
   }
   for (let x = 0; x < 5; x ++) {
     gamestate[x][1][0] = ['w', 'pawn'];
     gamestate[x][1][1] = ['w', 'pawn'];
-    gamestate[x][1][0] = ['w', 'pawn'];
-    gamestate[x][1][1] = ['w', 'pawn'];
+    gamestate[x][3][3] = ['b', 'pawn'];
+    gamestate[x][3][4] = ['b', 'pawn'];
   }
+  gamestate[0][0][0] = ['w', 'rook'];
+  gamestate[4][0][0] = ['w', 'rook'];
+  gamestate[0][4][4] = ['b', 'rook'];
+  gamestate[4][4][4] = ['b', 'rook'];
+  gamestate[1][0][0] = ['w', 'knight'];
+  gamestate[3][0][0] = ['w', 'knight'];
+  gamestate[1][4][4] = ['b', 'knight'];
+  gamestate[3][4][4] = ['b', 'knight'];
+  gamestate[0][0][0] = ['w', 'bishop'];
+  gamestate[4][0][0] = ['w', 'bishop'];
+  gamestate[0][4][4] = ['b', 'bishop'];
+  gamestate[4][4][4] = ['b', 'bishop'];
+  gamestate[1][0][0] = ['w', 'unicorn'];
+  gamestate[3][0][0] = ['w', 'unicorn'];
+  gamestate[1][4][4] = ['b', 'unicorn'];
+  gamestate[3][4][4] = ['b', 'unicorn'];
 }
 
 // p5.js calls this for us
@@ -268,7 +284,8 @@ function drawBoard(z) {
       selectionCanvas.fill(x, y, z);
 
       //cylinder(boardSide / 12, pieceHeight);
-      model(queenModel);
+      scale(0.7)
+      model(models.queen);
       selectionCanvas.cylinder(boardSide / 12, pieceHeight);
       pop(); // undo rotation and return to X,Y position 0,0 
       selectionCanvas.pop();
@@ -337,7 +354,7 @@ function drawGame() {
   drawBoard(3);
   translate(0, 0, verticalSpacing);
   selectionCanvas.translate(0, 0, verticalSpacing)
-  drawBoard(4);
+  //drawBoard(4);
 }
 
 // p5.js calls this function to update the canvas once per frame
