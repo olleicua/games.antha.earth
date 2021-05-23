@@ -7,7 +7,7 @@
    rotateX, rotateZ, keyIsPressed, plane, translate, camera,
    ortho, push, pop, cylinder, createGraphics, mouseX, mouseY,
    pixelDensity, pointLight, ambientMaterial, ambientLight,
-   loadModel, model, scale */
+   loadModel, model, scale, rotateY */
 
 // DEFINED in remote.js OR in_person.js
 /* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
@@ -212,7 +212,7 @@ function setup() {
   selectionCanvas = createGraphics(minAspect, minAspect, WEBGL);
   selectionCanvas.pixelDensity(1);
   selectionGL = selectionCanvas.elt.getContext('webgl');
-  selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height / 2, - 2 * height, 2 * height);
+  selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height, - 2 * height, 2 * height);
 
   // we calculate some distances based on the size of the canvas that we will use to draw things 
   boardSide = (Math.min(width, height) / 2); // distance along the side of one of the four boards
@@ -282,7 +282,11 @@ function drawBoard(z) {
 
       let spaceParity = (x + y + z) % 2
       ambientMaterial(color(['rgba(95, 95, 95, 0.5)', 'rgba(255, 255, 255, 0.5)'][spaceParity]));
+      // color the piece in the selection canvas with r,g,b correspond to x,y,z
+      selectionCanvas.fill(x, y, z);
+      //fill(x, y, z);
       plane(boardSide / 5, boardSide / 5);
+      selectionCanvas.plane(boardSide / 5, boardSide / 5);
 
       let [player, piece] = gV(v(x, y, z));
 
@@ -293,8 +297,6 @@ function drawBoard(z) {
 
         // color the piece based on the gamestate
         ambientMaterial(playerColors[player])
-        // color the piece in the selection canvas with r,g,b correspond to x,y,z
-        selectionCanvas.fill(x, y, z);
 
         //cylinder(boardSide / 12, pieceHeight);
         scale(0.7);
@@ -412,7 +414,8 @@ function mousePressed() {
   
   if (pixel[3] === 255 && pixel[0] < 4 && pixel[1] < 4 && pixel[2] < 4) {
     // click behaviour differs between remote and in-person versions so it is defined in the respective files
-    handlePieceClick(pixel[0], pixel[1], pixel[2]);
+    //handlePieceClick(pixel[0], pixel[1], pixel[2]);
+    console.log(pixel[0], pixel[1], pixel[2]);
   }
   
   return false
