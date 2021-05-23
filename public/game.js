@@ -7,7 +7,7 @@
    rotateX, rotateZ, keyIsPressed, plane, translate, camera,
    ortho, push, pop, cylinder, createGraphics, mouseX, mouseY,
    pixelDensity, pointLight, ambientMaterial, ambientLight,
-   loadModel, model */
+   loadModel, model, scale */
 
 // DEFINED in remote.js OR in_person.js
 /* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
@@ -171,23 +171,26 @@ function initGamestate() {
   gamestate[3][0][0] = ['w', 'knight'];
   gamestate[1][4][4] = ['b', 'knight'];
   gamestate[3][4][4] = ['b', 'knight'];
-  gamestate[0][0][0] = ['w', 'bishop'];
-  gamestate[4][0][0] = ['w', 'bishop'];
-  gamestate[0][4][4] = ['b', 'bishop'];
-  gamestate[4][4][4] = ['b', 'bishop'];
-  gamestate[1][0][0] = ['w', 'unicorn'];
-  gamestate[3][0][0] = ['w', 'unicorn'];
-  gamestate[1][4][4] = ['b', 'unicorn'];
-  gamestate[3][4][4] = ['b', 'unicorn'];
+  gamestate[0][0][1] = ['w', 'bishop'];
+  gamestate[3][0][1] = ['w', 'bishop'];
+  gamestate[0][4][3] = ['b', 'bishop'];
+  gamestate[3][4][3] = ['b', 'bishop'];
+  gamestate[1][0][1] = ['w', 'unicorn'];
+  gamestate[4][0][1] = ['w', 'unicorn'];
+  gamestate[1][4][3] = ['b', 'unicorn'];
+  gamestate[4][4][3] = ['b', 'unicorn'];
+  gamestate[2][0][1] = ['w', 'queen'];
+  gamestate[2][4][3] = ['b', 'queen'];
+  gamestate[2][0][0] = ['w', 'king'];
+  gamestate[2][4][4] = ['b', 'king'];
 }
 
 // p5.js calls this for us
 function setup() {
   v = createVector;
   
-  playerColors[0] = color(159, 159, 255); // default
-  playerColors[1] = color(255, 31, 31); // player 1
-  playerColors[2] = color(31, 255, 31); // player 2
+  playerColors.w = color(255, 255, 255);
+  playerColors.b = color(0, 0, 0);
 
   // the game canvas is a square
   // for mobile we make it as big as possible
@@ -219,15 +222,16 @@ function setup() {
   cameraFromZAxis = boardSide; // place the camera laterally away from the center
   
   // set the gamestate to a 4x4x4 3D array of all 0s
-  for (let x = 0; x < 4; x ++) {
-    gamestate.push([]);
-    for (let y = 0; y < 4; y ++) {
-      gamestate[x].push([]);
-      for (let z = 0; z < 4; z ++) {
-        gamestate[x][y].push(0);
-      }
-    }
-  }
+  // for (let x = 0; x < 4; x ++) {
+  //   gamestate.push([]);
+  //   for (let y = 0; y < 4; y ++) {
+  //     gamestate[x].push([]);
+  //     for (let z = 0; z < 4; z ++) {
+  //       gamestate[x][y].push(0);
+  //     }
+  //   }
+  // }
+  initGamestate();
 }
 
 function placeCamera() {
@@ -270,25 +274,30 @@ function drawBoard(z) {
   selectionCanvas.translate(- 3 * boardSide / 8, - 3 * boardSide / 8, pieceHeight / 2);
   for (let x = 0; x < 4; x ++) {
     for (let y = 0; y < 4; y ++) {
-      push();
-      selectionCanvas.push();
-      // translate to the piece with X,Y position x,y
-      translate(x * boardSide / 4, y * boardSide / 4, 0);
-      selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
-      // the cylinder will be drawn by default facing the Y axis sp we rotate it around the X axis
-      rotateX(TAU / 4);
-      selectionCanvas.rotateX(TAU / 4);
-      // color the piece based on the gamestate
-      ambientMaterial(playerColors[gV(v(x, y, z))])
-      // color the piece in the selection canvas with r,g,b correspond to x,y,z
-      selectionCanvas.fill(x, y, z);
+      let [player, piece] = gV(v(x, y, z));
 
-      //cylinder(boardSide / 12, pieceHeight);
-      scale(0.7)
-      model(models.queen);
-      selectionCanvas.cylinder(boardSide / 12, pieceHeight);
-      pop(); // undo rotation and return to X,Y position 0,0 
-      selectionCanvas.pop();
+      if (piece) {
+        push();
+        selectionCanvas.push();
+        // translate to the piece with X,Y position x,y
+        translate(x * boardSide / 4, y * boardSide / 4, 0);
+        selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
+        // the cylinder will be drawn by default facing the Y axis sp we rotate it around the X axis
+        rotateX(TAU / 4);
+        selectionCanvas.rotateX(TAU / 4);
+
+        // color the piece based on the gamestate
+        ambientMaterial(playerColors[player])
+        // color the piece in the selection canvas with r,g,b correspond to x,y,z
+        selectionCanvas.fill(x, y, z);
+
+        //cylinder(boardSide / 12, pieceHeight);
+        scale(0.7)
+        model(models[piece]);
+        selectionCanvas.model(models[piece]);
+        pop(); // undo rotation and return to X,Y position 0,0 
+        selectionCanvas.pop();
+      }
     }
   }
   pop(); // return to position and rotation from before this function call
