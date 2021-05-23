@@ -134,16 +134,35 @@ $cwb.addEventListener('touchend', resetRotateButton);
 $ccwb.addEventListener('touchend', resetRotateButton);
 
 const playerColors = [];
+const models = {};
 let pawnModel, knightModel, bishopModel, unicornModel, rookModel, queenModel, kingModel;
 
 function preload() {
-  pawnModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
-  knightModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKnight.obj');
-  bishopModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FBishop.obj');
-  unicornModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FUnicorn.obj');
-  rookModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FRook.obj');
-  queenModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2fQueen.obj');
-  kingModel = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKing.obj');
+  models.pawn = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FPawn.obj');
+  models.knight = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKnight.obj');
+  models.bishop = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FBishop.obj');
+  models.unicorn = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FUnicorn.obj');
+  models.rook = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FRook.obj');
+  models.queen = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2fQueen.obj');
+  models.king = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKing.obj');
+}
+
+function initGamestate() {
+  for (let x = 0; x < 5; x ++) {
+    gamestate.push([]);
+    for (let y = 0; y < 5; y ++) {
+      gamestate[x].push([]);
+      for (let z = 0; z < 5; z ++) {
+        gamestate[x][y].push(0);
+      }
+    }
+  }
+  for (let x = 0; x < 5; x ++) {
+    gamestate[x][1][0] = ['w', 'pawn'];
+    gamestate[x][1][1] = ['w', 'pawn'];
+    gamestate[x][1][0] = ['w', 'pawn'];
+    gamestate[x][1][1] = ['w', 'pawn'];
+  }
 }
 
 // p5.js calls this for us
