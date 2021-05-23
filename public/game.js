@@ -297,7 +297,11 @@ function drawBoard(z) {
         selectionCanvas.fill(x, y, z);
 
         //cylinder(boardSide / 12, pieceHeight);
-        scale(0.7)
+        scale(0.7);
+        selectionCanvas.scale(0.7);
+        if (piece === 'knight') {
+          rotateY({w: TAU / 4, b: - TAU / 4}[player]);
+        }
         model(models[piece]);
         selectionCanvas.model(models[piece]);
       }
