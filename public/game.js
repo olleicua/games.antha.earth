@@ -190,7 +190,7 @@ function setup() {
   v = createVector;
   
   playerColors.w = color(255, 255, 255);
-  playerColors.b = color(0, 0, 0);
+  playerColors.b = color(95, 95, 95);
 
   // the game canvas is a square
   // for mobile we make it as big as possible
@@ -265,23 +265,28 @@ function placeCamera() {
 }
 
 function drawBoard(z) {
-  ambientMaterial(color('rgba(127, 127, 255, 0.5)'));
-  plane(boardSide, boardSide);
+  // ambientMaterial(color('rgba(127, 127, 255, 0.5)'));
+  // plane(boardSide, boardSide);
   push();
   selectionCanvas.push();
   // translate to the position the piece with X,Y position 0,0
   translate(- 3 * boardSide / 8, - 3 * boardSide / 8, pieceHeight / 2);
   selectionCanvas.translate(- 3 * boardSide / 8, - 3 * boardSide / 8, pieceHeight / 2);
-  for (let x = 0; x < 4; x ++) {
-    for (let y = 0; y < 4; y ++) {
+  for (let x = 0; x < 5; x ++) {
+    for (let y = 0; y < 5; y ++) {
+      push();
+      selectionCanvas.push();
+      // translate to the piece with X,Y position x,y
+      translate(x * boardSide / 5, y * boardSide / 5, 0);
+      selectionCanvas.translate(x * boardSide / 5, y * boardSide / 5, 0);
+
+      let spaceParity = (x + y + z) % 2
+      ambientMaterial(color(['rgba(95, 95, 95, 0.5)', 'rgba(255, 255, 255, 0.5)'][spaceParity]));
+      plane(boardSide / 5, boardSide / 5);
+
       let [player, piece] = gV(v(x, y, z));
 
       if (piece) {
-        push();
-        selectionCanvas.push();
-        // translate to the piece with X,Y position x,y
-        translate(x * boardSide / 4, y * boardSide / 4, 0);
-        selectionCanvas.translate(x * boardSide / 4, y * boardSide / 4, 0);
         // the cylinder will be drawn by default facing the Y axis sp we rotate it around the X axis
         rotateX(TAU / 4);
         selectionCanvas.rotateX(TAU / 4);
@@ -295,9 +300,9 @@ function drawBoard(z) {
         scale(0.7)
         model(models[piece]);
         selectionCanvas.model(models[piece]);
-        pop(); // undo rotation and return to X,Y position 0,0 
-        selectionCanvas.pop();
       }
+      pop(); // undo rotation and return to X,Y position 0,0 
+      selectionCanvas.pop();
     }
   }
   pop(); // return to position and rotation from before this function call
@@ -363,7 +368,7 @@ function drawGame() {
   drawBoard(3);
   translate(0, 0, verticalSpacing);
   selectionCanvas.translate(0, 0, verticalSpacing)
-  //drawBoard(4);
+  drawBoard(4);
 }
 
 // p5.js calls this function to update the canvas once per frame
