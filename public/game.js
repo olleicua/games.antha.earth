@@ -199,7 +199,7 @@ function setup() {
   selectionCanvas.pixelDensity(1);
   selectionGL = selectionCanvas.elt.getContext('webgl');
   selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height, - 2 * height, 2 * height);
-  //selectionCanvas.parent('sc');
+  //selectionCanvas.parent('game');
 
   // we calculate some distances based on the size of the canvas that we will use to draw things 
   boardSide = (Math.min(width, height) / 2); // distance along the side of one of the four boards
@@ -207,6 +207,9 @@ function setup() {
   pieceHeight = verticalSpacing / 9; // height of each piece
   cameraHeight = boardSide / 2; // place the camera above the scene
   cameraFromZAxis = boardSide; // place the camera laterally away from the center
+  
+  selectionCanvas.show();
+  selec.style("display","inline")
   
   initGamestate();
 }
