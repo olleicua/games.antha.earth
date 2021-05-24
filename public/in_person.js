@@ -5,6 +5,7 @@ let victoryResult = null;
 let turn = 1;
 const $turn = document.querySelector('.turn');
 let checkVictory;
+let initGamestate;
 
 function displayTurn() {
   switch (turn) {
@@ -47,15 +48,6 @@ function handlePieceClick(x, y, z) {
 document.querySelector('.reset-button').addEventListener('click', () => {
   gameOver = false;
   victoryResult = null;
-  gamestate = [];
-  for (let x = 0; x < 4; x ++) {
-    gamestate.push([]);
-    for (let y = 0; y < 4; y ++) {
-      gamestate[x].push([]);
-      for (let z = 0; z < 4; z ++) {
-        gamestate[x][y].push(0);
-      }
-    }
-  }
+  initGamestate();
   displayTurn();
 });

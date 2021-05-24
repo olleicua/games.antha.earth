@@ -55,58 +55,58 @@ function checkLine(start, delta) {
 // this modifies a global variable because it needs to be used in in_person.js or remote.js
 // and i didn't feel like reorganizing things (probably the "correct" way would involve objects)
 checkVictory = () => {
-  let x, y, z;
-  let result;
-  for (x = 0; x < 4; x++) {
-    for (y = 0; y < 4; y++) {
-      result = checkLine(v(x, y, 0), v(0, 0, 1));
-      if (result) return result;
-    }
-  }
-  for (x = 0; x < 4; x++) {
-    for (z = 0; z < 4; z++) {
-      result = checkLine(v(x, 0, z), v(0, 1, 0));
-      if (result) return result;
-    }
-  }
-  for (z = 0; z < 4; z++) {
-    for (y = 0; y < 4; y++) {
-      result = checkLine(v(0, y, z), v(1, 0, 0));
-      if (result) return result;
-    }
-  }
-  for (x = 0; x < 4; x++) {
-    result = checkLine(v(x, 0, 0), v(0, 1, 1));
-    if (result) return result;
-  }
-  for (x = 0; x < 4; x++) {
-    result = checkLine(v(x, 0, 3), v(0, 1, -1));
-    if (result) return result;
-  }
-  for (y = 0; y < 4; y++) {
-    result = checkLine(v(0, y, 0), v(1, 0, 1));
-    if (result) return result;
-  }
-  for (y = 0; y < 4; y++) {
-    result = checkLine(v(0, y, 3), v(1, 0, -1));
-    if (result) return result;
-  }
-  for (z = 0; z < 4; z++) {
-    result = checkLine(v(0, 0, z), v(1, 1, 0));
-    if (result) return result;
-  }
-  for (z = 0; z < 4; z++) {
-    result = checkLine(v(0, 3, z), v(1, -1, 0));
-    if (result) return result;
-  }
-  result = checkLine(v(0, 0, 0), v(1, 1, 1));
-  if (result) return result;  
-  result = checkLine(v(0, 0, 3), v(1, 1, -1));
-  if (result) return result;  
-  result = checkLine(v(0, 3, 3), v(1, -1, -1));
-  if (result) return result;  
-  result = checkLine(v(0, 3, 0), v(1, -1, 1));
-  if (result) return result;  
+  // let x, y, z;
+  // let result;
+  // for (x = 0; x < 4; x++) {
+  //   for (y = 0; y < 4; y++) {
+  //     result = checkLine(v(x, y, 0), v(0, 0, 1));
+  //     if (result) return result;
+  //   }
+  // }
+  // for (x = 0; x < 4; x++) {
+  //   for (z = 0; z < 4; z++) {
+  //     result = checkLine(v(x, 0, z), v(0, 1, 0));
+  //     if (result) return result;
+  //   }
+  // }
+  // for (z = 0; z < 4; z++) {
+  //   for (y = 0; y < 4; y++) {
+  //     result = checkLine(v(0, y, z), v(1, 0, 0));
+  //     if (result) return result;
+  //   }
+  // }
+  // for (x = 0; x < 4; x++) {
+  //   result = checkLine(v(x, 0, 0), v(0, 1, 1));
+  //   if (result) return result;
+  // }
+  // for (x = 0; x < 4; x++) {
+  //   result = checkLine(v(x, 0, 3), v(0, 1, -1));
+  //   if (result) return result;
+  // }
+  // for (y = 0; y < 4; y++) {
+  //   result = checkLine(v(0, y, 0), v(1, 0, 1));
+  //   if (result) return result;
+  // }
+  // for (y = 0; y < 4; y++) {
+  //   result = checkLine(v(0, y, 3), v(1, 0, -1));
+  //   if (result) return result;
+  // }
+  // for (z = 0; z < 4; z++) {
+  //   result = checkLine(v(0, 0, z), v(1, 1, 0));
+  //   if (result) return result;
+  // }
+  // for (z = 0; z < 4; z++) {
+  //   result = checkLine(v(0, 3, z), v(1, -1, 0));
+  //   if (result) return result;
+  // }
+  // result = checkLine(v(0, 0, 0), v(1, 1, 1));
+  // if (result) return result;  
+  // result = checkLine(v(0, 0, 3), v(1, 1, -1));
+  // if (result) return result;  
+  // result = checkLine(v(0, 3, 3), v(1, -1, -1));
+  // if (result) return result;  
+  // result = checkLine(v(0, 3, 0), v(1, -1, 1));
+  // if (result) return result;  
 }
 
 // setup buttons to rotate the board
@@ -147,7 +147,7 @@ function preload() {
   models.king = loadModel('https://cdn.glitch.com/0348a368-99bb-4e16-9f2b-4e060c517fd5%2FKing.obj');
 }
 
-function initGamestate() {
+initGamestate = () => {
   for (let x = 0; x < 5; x ++) {
     gamestate.push([]);
     for (let y = 0; y < 5; y ++) {
@@ -288,7 +288,9 @@ function drawBoard(z) {
       plane(boardSide / 5, boardSide / 5);
       selectionCanvas.plane(boardSide / 5, boardSide / 5);
 
-      let [player, piece] = gV(v(x, y, z));
+      let space = gV(v(x, y, z));
+      let player = space[0];
+      let piece = space[1];
 
       if (piece) {
         // the cylinder will be drawn by default facing the Y axis sp we rotate it around the X axis
@@ -300,7 +302,7 @@ function drawBoard(z) {
 
         //cylinder(boardSide / 12, pieceHeight);
         scale(0.7);
-        selectionCanvas.scale(0.7);
+        selectionCanvas.scale(0.4);
         if (piece === 'knight') {
           rotateY({w: TAU / 4, b: - TAU / 4}[player]);
         }
