@@ -199,6 +199,7 @@ function setup() {
   selectionCanvas.pixelDensity(1);
   selectionGL = selectionCanvas.elt.getContext('webgl');
   selectionCanvas.ortho(- 3 * width / 7, 3 * width / 7, - height / 2, height, - 2 * height, 2 * height);
+  //selectionCanvas.parent('sc');
 
   // we calculate some distances based on the size of the canvas that we will use to draw things 
   boardSide = (Math.min(width, height) / 2); // distance along the side of one of the four boards
@@ -206,7 +207,6 @@ function setup() {
   pieceHeight = verticalSpacing / 9; // height of each piece
   cameraHeight = boardSide / 2; // place the camera above the scene
   cameraFromZAxis = boardSide; // place the camera laterally away from the center
-  console.log(boardSide);
   
   initGamestate();
 }
@@ -278,8 +278,9 @@ function drawBoard(z) {
         ambientMaterial(playerColors[player])
 
         //cylinder(boardSide / 12, pieceHeight);
-        scale(0.35);
-        selectionCanvas.scale(0.35);
+        let _scale = boardSide * 0.0012;
+        scale(_scale);
+        selectionCanvas.scale(_scale);
         if (piece === 'knight') {
           rotateY({w: TAU / 4, b: - TAU / 4}[player]);
         }
