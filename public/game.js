@@ -10,7 +10,8 @@
    loadModel, model, scale, rotateY */
 
 // DEFINED in remote.js OR in_person.js
-/* global handlePieceClick, checkVictory, gamestate, gameOver, victoryResult */
+/* global handlePieceClick, checkVictory, gamestate, gameOver,
+   victoryResult, initGamestate */
 
 const TAU = 2 * Math.PI;
 
@@ -33,22 +34,6 @@ let v;
 // get the piece value for a vector
 function gV(vector) {
   return gamestate[vector.x][vector.y][vector.z];
-}
-
-// looks at the four pieces along the direction of delta starting with start
-// returns false if they are not all the same or they are all 0
-// otherwise returns an array with three values: the value that all the cells are
-// and the two arguments that were passed in
-function checkLine(start, delta) {
-  let i;
-  let position = start.copy();
-  const first = gV(start);
-  if (first === 0) return false;
-  for (i = 1; i < 4; i++) {
-    position = p5.Vector.add(position, delta);
-    if (gV(position) !== first) return false;
-  }
-  return [first, start, delta];
 }
 
 // calls checkLine for every possible victory line and returns the first non-falsey result
@@ -148,6 +133,7 @@ function preload() {
 }
 
 initGamestate = () => {
+  gamestate = [];
   for (let x = 0; x < 5; x ++) {
     gamestate.push([]);
     for (let y = 0; y < 5; y ++) {
@@ -220,17 +206,8 @@ function setup() {
   pieceHeight = verticalSpacing / 9; // height of each piece
   cameraHeight = boardSide / 2; // place the camera above the scene
   cameraFromZAxis = boardSide; // place the camera laterally away from the center
+  console.log(boardSide);
   
-  // set the gamestate to a 4x4x4 3D array of all 0s
-  // for (let x = 0; x < 4; x ++) {
-  //   gamestate.push([]);
-  //   for (let y = 0; y < 4; y ++) {
-  //     gamestate[x].push([]);
-  //     for (let z = 0; z < 4; z ++) {
-  //       gamestate[x][y].push(0);
-  //     }
-  //   }
-  // }
   initGamestate();
 }
 
@@ -301,8 +278,8 @@ function drawBoard(z) {
         ambientMaterial(playerColors[player])
 
         //cylinder(boardSide / 12, pieceHeight);
-        scale(0.7);
-        selectionCanvas.scale(0.4);
+        scale(0.35);
+        selectionCanvas.scale(0.35);
         if (piece === 'knight') {
           rotateY({w: TAU / 4, b: - TAU / 4}[player]);
         }
