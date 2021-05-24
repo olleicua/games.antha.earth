@@ -208,8 +208,8 @@ function setup() {
   cameraHeight = boardSide / 2; // place the camera above the scene
   cameraFromZAxis = boardSide; // place the camera laterally away from the center
   
-  selectionCanvas.show();
-  selec.style("display","inline")
+  // selectionCanvas.show();
+  // selectionCanvas.style("display","inline")
   
   initGamestate();
 }
@@ -395,7 +395,7 @@ function mousePressed() {
                          selectionGL.UNSIGNED_BYTE,
                          pixel);
   
-  if (pixel[3] === 255 && pixel[0] < 4 && pixel[1] < 4 && pixel[2] < 4) {
+  if (pixel[3] === 255 && pixel[0] < 5 && pixel[1] < 5 && pixel[2] < 5) {
     // click behaviour differs between remote and in-person versions so it is defined in the respective files
     //handlePieceClick(pixel[0], pixel[1], pixel[2]);
     console.log(pixel[0], pixel[1], pixel[2]);
