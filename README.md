@@ -18,3 +18,4 @@ i have also started a 3d chess game
 
 - convert this repository into a general purpose tool / hub for existing games
 - make 3d chess playable
+- set up browser testing: https://dev.to/ykyuen/web-ui-testing-in-nodejs--kda
