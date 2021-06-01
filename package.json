@@ -10,9 +10,20 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "argparse": "^2.0.1",
+    "array-flatten": "^3.0.0",
+    "body-parser": "^1.19.0",
+    "content-disposition": "^0.5.3",
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
-    "ws": "^7.4.4"
+    "finalhandler": "^1.1.2",
+    "merge-descriptors": "^1.0.1",
+    "methods": "^1.1.2",
+    "path-to-regexp": "^6.2.0",
+    "safe-buffer": "^5.2.1",
+    "utils-merge": "^1.0.1",
+    "ws": "^7.4.4",
+    "yarn": "^1.22.10"
   },
   "engines": {
     "node": "12.x"
